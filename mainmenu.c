@@ -5,7 +5,7 @@
 void displayMenu()
 {
     printf("\n=========================\n");
-    printf("         MAIN MENU       \n");
+    printf("        MAIN MENU       \n");
     printf("=========================\n");
     printf("[1] Battle!\n");
     printf("[2] ComPetDium\n");
@@ -16,19 +16,18 @@ void displayMenu()
 }
 /*scans user input for choice :)
  param*/
-int scanfChoice()
+int getChoice()
 {
     int choice;
     displayMenu(); 
     scanf("%d", &choice);
     return choice;
 
-    
 }
 
 void inputChoice(int choice)
 {
-    choice = scanfChoice();
+    choice = getChoice();
     switch (choice) {
         case 1:
             printf("\n>>> Starting Battle Mode...\n");
