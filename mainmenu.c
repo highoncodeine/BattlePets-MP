@@ -22,6 +22,8 @@ void displayStartMenu()
     printf("Select your input: ");
 }
 
+
+
 void displayCompetdium()
 {
     printf("\n=========================\n");
@@ -83,7 +85,7 @@ void startMenu()
         switch (input) {
             case 1:
                 clrscr();
-                printf("\n>>> Starting Battle Mode...\n");
+                printf("\n>>> Entering Battle Mode...\n");
                 break;
             case 2:
                 clrscr();
