@@ -1,8 +1,15 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "functions.h"
 
-// Displays the Menu :)
-void displayMenu()
+#define START_MENU 23
+
+void clrscr()
+{
+    system("@cls || clear");
+}
+
+void displayStartMenu()
 {
     printf("\n=========================\n");
     printf("        MAIN MENU       \n");
@@ -12,36 +19,89 @@ void displayMenu()
     printf("[3] View Statistics\n");
     printf("[0] Exit\n");
     printf("=========================\n");
-    printf("Enter your choice: ");
-}
-/*scans user input for choice :)
- param*/
-int getChoice()
-{
-    int choice;
-    displayMenu(); 
-    scanf("%d", &choice);
-    return choice;
-
+    printf("Select your input: ");
 }
 
-void inputChoice(int choice)
+void displayCompetdium()
 {
-    choice = getChoice();
-    switch (choice) {
-        case 1:
-            printf("\n>>> Starting Battle Mode...\n");
-            break;
-        case 2:
-            printf("\n>>> Opening ComPetDium...\n");
-            break;
-        case 3:
-            printf("\n>>> Displaying Statistics...\n");
-            break;
-        case 0:
-            printf("\n>>> Exiting program. Goodbye!\n");
-            break;
-        default:
-            printf("\nInvalid choice! Please select a valid option.\n");
-    }
+    printf("\n=========================\n");
+    printf("        THE COMPETDIUM       \n");
+    printf("=========================\n");
+    printf("[1] View BattlePets!\n");
+    printf("[2] Add Battlepet\n");
+    printf("[3] Edit BattlePet\n");
+    printf("[4] Delete Battlepet\n");
+    printf("[5] Save a Roster\n");
+    printf("[6] Go Back to Start Menu\n");
+    printf("=========================\n");
+    printf("Select your input: ");
+}
+
+void competdiumMenu(int *back)
+{
+    int nInput = 0;
+    
+        displayCompetdium();
+        scanf("%d", &nInput);
+
+        switch(nInput) {
+            case 1:
+                clrscr();
+                printf("To be continued");
+                break;
+            case 2:
+                clrscr();
+                printf("To be continued");
+                break;
+            case 3:
+                clrscr();
+                printf("To be continued");
+                break;
+            case 4:
+                clrscr();
+                printf("To be continued");
+                break;
+            case 5:
+                clrscr();
+                printf("To be continued");
+                break;
+            case 6:
+                clrscr();
+                *back = START_MENU;
+        }
+}
+
+void startMenu()
+{   
+    int exit = 0;
+    int input = 0;
+
+    do{
+        displayStartMenu();
+        scanf("%d", &input);
+    
+        switch (input) {
+            case 1:
+                clrscr();
+                printf("\n>>> Starting Battle Mode...\n");
+                break;
+            case 2:
+                clrscr();
+                do{
+                    competdiumMenu(&input);
+                } while (input != START_MENU);
+                break;
+            case 3:
+                clrscr();
+                printf("\n>>> Displaying Statistics...\n");
+                break;
+            case 0:
+                clrscr();
+                printf("\n>>> Exiting program. Thanks for Playing!\n");
+                exit = 1;
+                break;
+            default:
+                printf("\nInvalid choice! Please select a valid option.\n");
+        }
+    } while(exit == 0);   
 }

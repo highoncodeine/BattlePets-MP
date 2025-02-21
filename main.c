@@ -1,10 +1,12 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "functions.h"
 #include "mainmenu.c"
 int main()
 {
-    int choice;
-    inputChoice(choice);        
+    
+    startMenu();
+
     return 0;
 
 }
