@@ -22,8 +22,42 @@ void displayStartMenu()
     printf("Select your input: ");
 }
 
+void displayBattleMenu()
+{
+    printf("\n=========================\n");
+    printf("        BATTLE MENU       \n");
+    printf("=========================\n");
+    printf("[1] Create New Player\n");
+    printf("[2] Load Player\n");
+    printf("[3] Go Back to Start Menu\n");
+    printf("=========================\n");
+    printf("Select your input: ");
+}
 
+void battleMenu(int *back)
+{
+    int nInput = 0;
+    
+        displayBattleMenu();
+        scanf("%d", &nInput);
 
+        switch(nInput) {
+            case 1:
+                clrscr();
+                printf("Enter Username: ");
+                char username[37];
+                scanf("%s", username);
+                printf("Welcome, %s!\n", username);
+                break;
+            case 2:
+                clrscr();
+                printf("To be continued");
+                break;
+            case 3:
+                clrscr();
+                *back = START_MENU;
+        }
+}
 void displayCompetdium()
 {
     printf("\n=========================\n");
@@ -85,7 +119,12 @@ void startMenu()
         switch (input) {
             case 1:
                 clrscr();
-                printf("\n>>> Entering Battle Mode...\n");
+                do
+                {
+                    battleMenu(&input);
+                } while (input != START_MENU);
+                
+                
                 break;
             case 2:
                 clrscr();
