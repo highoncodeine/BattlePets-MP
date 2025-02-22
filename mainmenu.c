@@ -11,20 +11,20 @@ void clrscr()
 
 void displayStartMenu()
 {
-    printf("\n=========================\n");
+    printf("=========================\n");
     printf("        MAIN MENU       \n");
     printf("=========================\n");
     printf("[1] Battle!\n");
     printf("[2] ComPetDium\n");
     printf("[3] View Statistics\n");
-    printf("[0] Exit\n");
+    printf("[4] Exit\n");
     printf("=========================\n");
     printf("Select your input: ");
 }
 
 void displayBattleMenu()
 {
-    printf("\n=========================\n");
+    printf("=========================\n");
     printf("        BATTLE MENU       \n");
     printf("=========================\n");
     printf("[1] Create New Player\n");
@@ -60,7 +60,7 @@ void battleMenu(int *back)
 }
 void displayCompetdium()
 {
-    printf("\n=========================\n");
+    printf("=========================\n");
     printf("        THE COMPETDIUM       \n");
     printf("=========================\n");
     printf("[1] View BattlePets!\n");
@@ -104,8 +104,51 @@ void competdiumMenu(int *back)
             case 6:
                 clrscr();
                 *back = START_MENU;
+            default:
+                clrscr();
+                printf("Invalid Input. Press a valid Input.\n");
         }
 }
+
+void displayStatistics()
+{
+    printf("=========================\n");
+    printf("        STATISTICS       \n");
+    printf("=========================\n");
+    printf("[1] View Top Players\n");
+    printf("[2] View Top Battlepets\n");
+    printf("[3] Go Back to Start Menu\n");
+    printf("=========================\n");
+    printf("Select your input: ");
+}
+
+void statisticsMenu(int *back)
+{
+    int nInput = 0;
+
+        displayStatistics();
+        scanf("%d", &nInput);
+
+        switch(nInput){
+            case 1:
+                clrscr();
+                printf("To be continued");
+                break;
+            case 2:
+                clrscr();
+                printf("Top 5 Battlepets:\n 1.\n 2.");
+                break;
+            case 3:
+                clrscr();
+                *back = START_MENU;
+                break;
+            default:
+                clrscr();
+                printf("Invalid Input. Press a valid Input.\n");
+                break;
+        }
+}
+
 
 void startMenu()
 {   
@@ -119,12 +162,9 @@ void startMenu()
         switch (input) {
             case 1:
                 clrscr();
-                do
-                {
+                do{
                     battleMenu(&input);
                 } while (input != START_MENU);
-                
-                
                 break;
             case 2:
                 clrscr();
@@ -134,15 +174,18 @@ void startMenu()
                 break;
             case 3:
                 clrscr();
-                printf("\n>>> Displaying Statistics...\n");
+                do{
+                    statisticsMenu(&input);
+                } while (input != START_MENU);
                 break;
-            case 0:
+            case 4:
                 clrscr();
                 printf("\n>>> Exiting program. Thanks for Playing!\n");
-                exit = 1;
+                exit = 0;
                 break;
             default:
-                printf("\nInvalid choice! Please select a valid option.\n");
+                clrscr();
+                printf("Invalid Input. Select a Valid Input.\n");
         }
-    } while(exit == 0);   
+    } while (exit == 0);   
 }
