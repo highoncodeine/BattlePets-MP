@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "functions.h"
-
-#define START_MENU 23
+#include "battle.c"
 
 void clrscr()
 {
@@ -25,7 +24,7 @@ void displayStartMenu()
 void displayBattleMenu()
 {
     printf("=========================\n");
-    printf("        BATTLE MENU       \n");
+    printf("       BATTLE MENU       \n");
     printf("=========================\n");
     printf("[1] Create New Player\n");
     printf("[2] Load Player\n");
@@ -61,7 +60,7 @@ void battleMenu(int *back)
 void displayCompetdium()
 {
     printf("=========================\n");
-    printf("        THE COMPETDIUM       \n");
+    printf("     THE COMPETDIUM       \n");
     printf("=========================\n");
     printf("[1] View BattlePets!\n");
     printf("[2] Add Battlepet\n");
@@ -73,17 +72,45 @@ void displayCompetdium()
     printf("Select your input: ");
 }
 
-void competdiumMenu(int *back)
+void displayBattlePets(bpet battlePets[]){
+	
+	for(int i = 0; i < MAX_PETS; i++){
+		
+		char * elementalType = checkElement(battlePets[i].element);
+		
+		printf("Name: %s\n", battlePets[i].name);
+		printf("Elemental Type: %s\n", elementalType);
+		printf("Description: %s\n", battlePets[i].desc);
+		printf("Matches: %d\n\n\n", battlePets[i].matches);
+	}
+}
+
+void viewBattlePetsMenu(bpet battlePets[], int *nInput){
+	
+	clrscr();
+	displayBattlePets(battlePets);
+	printf("Press 0 to go Back: ");
+	scanf("%d", nInput);
+	
+	if(*nInput != 0){
+	}
+}
+
+void competdiumMenu(int *back, bpet battlePets[])
 {
     int nInput = 0;
-    
+    	
+    	clrscr();
         displayCompetdium();
         scanf("%d", &nInput);
 
         switch(nInput) {
             case 1:
                 clrscr();
-                printf("To be continued");
+                do{
+                viewBattlePetsMenu(battlePets, &nInput);	
+				} while (nInput != 0);
+				
                 break;
             case 2:
                 clrscr();
@@ -104,9 +131,10 @@ void competdiumMenu(int *back)
             case 6:
                 clrscr();
                 *back = START_MENU;
+                break;
             default:
                 clrscr();
-                printf("Invalid Input. Press a valid Input.\n");
+                printf("Invalid Input.\n\n");
         }
 }
 
@@ -144,13 +172,13 @@ void statisticsMenu(int *back)
                 break;
             default:
                 clrscr();
-                printf("Invalid Input. Press a valid Input.\n");
+                printf("Invalid Input. \n\n");
                 break;
         }
 }
 
 
-void startMenu()
+void startMenu(bpet battlePets[])
 {   
     int exit = 0;
     int input = 0;
@@ -169,7 +197,7 @@ void startMenu()
             case 2:
                 clrscr();
                 do{
-                    competdiumMenu(&input);
+                    competdiumMenu(&input, battlePets);
                 } while (input != START_MENU);
                 break;
             case 3:
@@ -180,12 +208,12 @@ void startMenu()
                 break;
             case 4:
                 clrscr();
-                printf("\n>>> Exiting program. Thanks for Playing!\n");
-                exit = 0;
+                printf("Thanks for playing. Closing Game.\n");
+                exit = 1;
                 break;
             default:
                 clrscr();
-                printf("Invalid Input. Select a Valid Input.\n");
+                printf("Invalid Input.\n\n");
         }
     } while (exit == 0);   
 }
