@@ -11,7 +11,7 @@
 #define ICE 7
 #define METAL 8
 #define START_MENU 23
-#define MAX_PETS 3
+#define MAX_PETS 9
 
 // Function prototypes
 void displayMenu();
