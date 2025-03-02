@@ -3,6 +3,7 @@
 #include "functions.h"
 #include "battle.c"
 
+
 void clrscr()
 {
     system("@cls || clear");

@@ -8,7 +8,7 @@ int main()
 {
 	bpet battlePets[20];
 	
-	infoBattlePets(battlePets);
+	loadBattlePets("competdium.txt", battlePets);
     startMenu(battlePets);
 
     return 0;

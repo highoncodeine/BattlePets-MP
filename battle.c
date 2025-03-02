@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 int getBattleResult(int element1, int element2){
 	
@@ -15,12 +16,5 @@ int getBattleResult(int element1, int element2){
     };
     
     return affinity[element1][element2]; // return 1 if element 1 wins, -1 if element 2 wins, 0 if it is a draw.
-}
-
-char *checkElement(int element){
-	
-	char *elements[] = { "Fire", "Water", "Grass", "Earth", "Air", "Electric", "Ice", "Metal"};
-	
-	return elements[element];
 }
 

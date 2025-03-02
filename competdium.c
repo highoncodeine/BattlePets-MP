@@ -1,15 +1,66 @@
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include "functions.h"
 
-void infoBattlePets(bpet battlePets[]){
+char *checkElement(int element){
 	
-	battlePets[0] = (bpet){"Solaraffe", 0, "A fiery and majestic giraffe that harnesses the power of the sun.", 0};
-	battlePets[1] = (bpet){"Firepupp", 0, "A loyal, flame-breathing dog that races through the night with fiery speed.", 0};
-	battlePets[2] = (bpet){"Hydrake", 1, "A sleek, serpentine creature that can summon powerful waves and whip through currents with ease.", 0};
-	battlePets[3] = (bpet){"Meowguro",1, "A playful, aquatic catfish with feline-like agility in the water.", 0};
-	battlePets[4] = (bpet){"Grawl", 2, "A wise and stealthy owl, covered in leaves and vines, blending into nature.", 0};
-	battlePets[5] = (bpet){"Barkbear",2, "A sturdy bear with a bark-like skin, nearly indestructible in nature’s wilds.", 0};
-	battlePets[6] = (bpet){"Terrashark", 3, "An earth-dwelling predator with the fierce speed and agility of a shark.", 0};
-	battlePets[7] = (bpet){"Roarland", 3, "A fierce, rock-covered tiger with the ability to cause earth tremors with every roar.", 0};
-	battlePets[8] = (bpet){"Airsting", 4, "A graceful, flying stingray that glides through the air with the elegance of the wind.", 0};
-} 
+	char *elements[] = {"Fire", "Water", "Grass", "Earth", "Air", "Electric", "Ice", "Metal"};
+	
+	return elements[element];
+}
+
+int checkElementIndex(char* element){
+	
+	int index = 0;
+	
+	char *elements[] = {"Fire", "Water", "Grass", "Earth", "Air", "Electric", "Ice", "Metal"};
+	
+	for(int i = 0; i < 8; i++){
+		
+		if(strcmp(element, elements[i]) == 0){
+			
+			index = i;
+		}
+	}
+	
+	return index;
+}
+
+void loadBattlePets(const char *filename, bpet battlePets[]){
+	 
+	char temp[50];
+	int element;
+	FILE *file = fopen(filename, "r");
+	
+    if (!file){
+    	
+        printf("Error: Could not open file.\n");
+        return;
+	}
+
+    char line[400];
+    int index = 0;
+
+    while (fgets(line, sizeof(line), file)){
+        
+        if (strlen(line) <= 1) continue;  
+        strcpy(battlePets[index].name, strtok(line, "\n"));
+
+        
+        fgets(line, sizeof(line), file);
+        strcpy(temp, strtok(line, "\n"));
+        battlePets[index].element = checkElementIndex(temp);
+
+        
+        fgets(line, sizeof(line), file);
+        strcpy(battlePets[index].desc, strtok(line, "\n"));
+
+        
+        fgets(line, sizeof(line), file);
+        battlePets[index].matches = atoi(line);
+
+        index++;
+    }
+
+}
