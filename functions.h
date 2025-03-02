@@ -17,6 +17,7 @@
 void displayMenu();
 int checkElementIndex(char* element);
 char* checkElement(int element);
+int getBattleResult(int element1, int element2);
 
 typedef struct bpet{
 	char name[50];
