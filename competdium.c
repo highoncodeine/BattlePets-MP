@@ -30,7 +30,7 @@ int checkElementIndex(char* element){
 void loadBattlePets(const char *filename, bpet battlePets[]){
 	 
 	char temp[50];
-	int element;
+	
 	FILE *file = fopen(filename, "r");
 	
     if (!file){

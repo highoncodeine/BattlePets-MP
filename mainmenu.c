@@ -44,10 +44,7 @@ void battleMenu(int *back)
         switch(nInput) {
             case 1:
                 clrscr();
-                printf("Enter Username: ");
-                char username[37];
-                scanf("%s", username);
-                printf("Welcome, %s!\n", username);
+                createNewPlayer();
                 break;
             case 2:
                 clrscr();

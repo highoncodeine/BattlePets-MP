@@ -12,6 +12,9 @@
 #define METAL 8
 #define START_MENU 23
 #define MAX_PETS 16
+#define MAX_PLAYERS 50
+#define MAX_USERNAME_LENGTH 37
+#define PLAYER_FILE "players.txt"
 
 // Function prototypes
 void displayMenu();
@@ -26,5 +29,12 @@ typedef struct bpet{
 	int matches;
 	
 } bpet;
+
+typedef struct {
+    char username[MAX_USERNAME_LENGTH +1];
+    int wins;
+    int losses;
+    int draws;
+} Player;
 
 #endif
