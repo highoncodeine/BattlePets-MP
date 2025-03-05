@@ -17,10 +17,11 @@
 #define PLAYER_FILE "players.txt"
 
 // Function prototypes
-void displayMenu();
 int checkElementIndex(char* element);
 char* checkElement(int element);
 int getBattleResult(int element1, int element2);
+int username(char *username);
+void createNewPlayer();
 
 typedef struct bpet{
 	char name[50];
