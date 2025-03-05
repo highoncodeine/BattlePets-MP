@@ -14,14 +14,10 @@
 #define MAX_PETS 16
 #define MAX_PLAYERS 50
 #define MAX_USERNAME_LENGTH 37
+#define MAX_LINE 100
 #define PLAYER_FILE "players.txt"
 
-// Function prototypes
-void displayMenu();
-int checkElementIndex(char* element);
-char* checkElement(int element);
-int getBattleResult(int element1, int element2);
-
+// struct typedefs
 typedef struct bpet{
 	char name[50];
 	int element;
@@ -36,5 +32,30 @@ typedef struct {
     int losses;
     int draws;
 } Player;
+
+// mainmenu.c func prototypes
+void clrscr();
+void displayStartMenu();
+void displayBattleMenu();
+void battleMenu(int *back);
+void displayCompetdium();
+void displayBattlePets(bpet battlePets[]);
+void accessBattlePets(bpet battlePets[], int index);
+void viewBattlePetsMenu(bpet battlePets[], int *nInput);
+void competdiumMenu(int *back, bpet battlePets[]);
+void displayStatistics();
+void statisticsMenu(int *back);
+void startMenu(bpet battlePets[]);
+
+// battle.c func prototypes
+int getBattleResult(int element1, int element2);
+int validateUsername(char *username);
+void createNewPlayer();
+
+// competdium.c func prototypes
+char *checkElement(int element);
+int checkElementIndex(char* element);
+void loadBattlePets(const char *filename, bpet battlePets[]);
+
 
 #endif

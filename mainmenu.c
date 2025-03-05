@@ -4,6 +4,7 @@
 #include "battle.c"
 
 
+
 void clrscr()
 {
     system("@cls || clear");
@@ -25,13 +26,20 @@ void displayStartMenu()
 void displayBattleMenu()
 {
     printf("=========================\n");
-    printf("       BATTLE MENU       \n");
+    printf("    SELECT PLAYER ONE       \n");
     printf("=========================\n");
     printf("[1] Create New Player\n");
     printf("[2] Load Player\n");
     printf("[3] Go Back to Start Menu\n");
     printf("=========================\n");
     printf("Select your input: ");
+}
+
+void displayPlayers(){
+	printf("=========================\n");
+    printf("    SELECT PLAYER ONE       \n");
+    printf("=========================\n");
+    
 }
 
 void battleMenu(int *back)
@@ -74,23 +82,41 @@ void displayBattlePets(bpet battlePets[]){
 	
 	for(int i = 0; i < MAX_PETS; i++){
 		
-		char * elementalType = checkElement(battlePets[i].element);
-		
-		printf("Name: %s\n", battlePets[i].name);
-		printf("Elemental Type: %s\n", elementalType);
-		printf("Description: %s\n", battlePets[i].desc);
-		printf("Matches: %d\n\n\n", battlePets[i].matches);
+		printf("[%d]  Name: %s\n", i, battlePets[i].name);
 	}
+}
+
+void accessBattlePets(bpet battlePets[], int index){
+	
+	char* elementalType = checkElement(battlePets[index].element);
+	
+	printf("%s\n\n", battlePets[index].name);
+	printf("Elemental Type: %s\n", elementalType);
+	printf("Description: %s\n", battlePets[index].desc);
+	printf("Matches: %d\n\n\n", battlePets[index].matches);
 }
 
 void viewBattlePetsMenu(bpet battlePets[], int *nInput){
 	
 	clrscr();
 	displayBattlePets(battlePets);
-	printf("Press 0 to go Back: ");
+	printf("\nTo view the details of a Battlepet, enter its index, Otherwise ");
+	printf("Press 0 to go Back: \n\n");
 	scanf("%d", nInput);
 	
-	if(*nInput != 0){
+	if(*nInput > 0 && *nInput < MAX_PETS){
+		
+		clrscr();
+		accessBattlePets(battlePets, *nInput);
+		
+		printf("Press 0 to go Back: ");
+		scanf("%d", nInput);
+		if(*nInput != 0){
+		}
+		
+	} else {
+		
+		printf("Invalid Input\n");
 	}
 }
 
