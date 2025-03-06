@@ -4,7 +4,6 @@
 #include "battle.c"
 
 
-
 void clrscr()
 {
     system("@cls || clear");
@@ -26,7 +25,7 @@ void displayStartMenu()
 void displayBattleMenu()
 {
     printf("=========================\n");
-    printf("    SELECT PLAYER ONE       \n");
+    printf("       BATTLE MENU       \n");
     printf("=========================\n");
     printf("[1] Create New Player\n");
     printf("[2] Load Player\n");
@@ -35,19 +34,16 @@ void displayBattleMenu()
     printf("Select your input: ");
 }
 
-void displayPlayers(){
-	printf("=========================\n");
-    printf("    SELECT PLAYER ONE       \n");
-    printf("=========================\n");
-    
-}
-
 void battleMenu(int *back)
 {
     int nInput = 0;
     Player players[MAX_PLAYERS];
     int playerCount = 0;
     Player player1, player2;
+
+
+    // Load the battlePets from the competdium
+ 
 
     displayBattleMenu();
     scanf("%d", &nInput);
@@ -97,22 +93,6 @@ void displayBattlePets(bpet battlePets[])
         printf("Description: %s\n", battlePets[i].desc);
         printf("Matches: %d\n\n\n", battlePets[i].matches);
     }
-void displayBattlePets(bpet battlePets[]){
-	
-	for(int i = 0; i < MAX_PETS; i++){
-		
-		printf("[%d]  Name: %s\n", i, battlePets[i].name);
-	}
-}
-
-void accessBattlePets(bpet battlePets[], int index){
-	
-	char* elementalType = checkElement(battlePets[index].element);
-	
-	printf("%s\n\n", battlePets[index].name);
-	printf("Elemental Type: %s\n", elementalType);
-	printf("Description: %s\n", battlePets[index].desc);
-	printf("Matches: %d\n\n\n", battlePets[index].matches);
 }
 
 void viewBattlePetsMenu(bpet battlePets[], int *nInput)
@@ -124,28 +104,6 @@ void viewBattlePetsMenu(bpet battlePets[], int *nInput)
 
     if (*nInput != 0) {
     }
-void viewBattlePetsMenu(bpet battlePets[], int *nInput){
-	
-	clrscr();
-	displayBattlePets(battlePets);
-	printf("\nTo view the details of a Battlepet, enter its index, Otherwise ");
-	printf("Press 0 to go Back: \n\n");
-	scanf("%d", nInput);
-	
-	if(*nInput > 0 && *nInput < MAX_PETS){
-		
-		clrscr();
-		accessBattlePets(battlePets, *nInput);
-		
-		printf("Press 0 to go Back: ");
-		scanf("%d", nInput);
-		if(*nInput != 0){
-		}
-		
-	} else {
-		
-		printf("Invalid Input\n");
-	}
 }
 
 void competdiumMenu(int *back, bpet battlePets[])
