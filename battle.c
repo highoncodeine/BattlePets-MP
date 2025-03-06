@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "functions.h"
+
 int getBattleResult(int element1, int element2){
 	
 	int affinity[8][8] = {
@@ -83,7 +84,7 @@ void createNewPlayer()
             printf("Error opening file.\n");
             return;
         }
-        fprintf(file, "%s\n %d Wins\n %d Losses\n %d Draws\n\n", player.username, player.wins, player.losses, player.draws);
+        fprintf(file, "%s\n%d Wins\n%d Losses\n%d Draws\n\n", player.username, player.wins, player.losses, player.draws);
         fclose(file);
 
         printf("Player saved successfully!\n");
@@ -91,9 +92,86 @@ void createNewPlayer()
     else
     {
         printf("Invalid username. Player not saved.\n");
-        createNewPlayer();
+        return;
     }
 }
+
+void LoadPlayers(Player players[], int *playerCount) {
+    FILE *file = fopen(PLAYER_FILE, "r");
+    if (!file) {
+        printf("Error opening file.\n");
+        return;
+    }
+
+    *playerCount = 0;
+    char buffer[256];
+    while (fgets(buffer, sizeof(buffer), file) && *playerCount < MAX_PLAYERS) {
+        // username
+        strcpy(players[*playerCount].username, strtok(buffer, "\n"));
+
+        // wins
+        fgets(buffer, sizeof(buffer), file);
+        players[*playerCount].wins = atoi(buffer);
+
+        // losses
+        fgets(buffer, sizeof(buffer), file);
+        players[*playerCount].losses = atoi(buffer);
+
+        // draws
+        fgets(buffer, sizeof(buffer), file);
+        players[*playerCount].draws = atoi(buffer);
+
+        
+        fgets(buffer, sizeof(buffer), file);
+
+        (*playerCount)++;
+    }
+
+    fclose(file);
+}
+
+void SelectPlayer(Player players[], int playerCount, Player *selectedPlayer, int playerNumber) {
+    if (playerCount == 0) {
+        printf("No players available.\n");
+        return;
+    }
+
+    printf("Player %d, select a player:\n", playerNumber);
+    for (int i = 0; i < playerCount; i++) {
+        printf("%d. %s\n", i + 1, players[i].username);
+    }
+
+    int choice;
+    printf(">> ");
+    scanf("%d", &choice);
+
+    if (choice < 1 || choice > playerCount) {
+        printf("Invalid choice. Please try again.\n");
+        SelectPlayer(players, playerCount, selectedPlayer, playerNumber);
+        return;
+    }
+
+    *selectedPlayer = players[choice - 1];
+    printf("Player %d has selected: %s\n", playerNumber, selectedPlayer->username);
+    printf("Wins: %d\n", selectedPlayer->wins);
+    printf("Losses: %d\n", selectedPlayer->losses);
+    printf("Draws: %d\n", selectedPlayer->draws);
+}
+
+void selectPlayers(Player players[], int playerCount, Player *player1, Player *player2) {
+    printf("====================================\n");
+    printf("          PLAYER SELECTION          \n");
+    printf("====================================\n");
+    SelectPlayer(players, playerCount, player1, 1);
+    printf("====================================\n");
+    printf("          PLAYER SELECTION          \n");
+    printf("====================================\n");
+    SelectPlayer(players, playerCount, player2, 2);
+    
+}
+
+
+
 
 
 

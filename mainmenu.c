@@ -37,24 +37,38 @@ void displayBattleMenu()
 void battleMenu(int *back)
 {
     int nInput = 0;
-    
-        displayBattleMenu();
-        scanf("%d", &nInput);
+    Player players[MAX_PLAYERS];
+    int playerCount = 0;
+    Player player1, player2;
 
-        switch(nInput) {
-            case 1:
-                clrscr();
-                createNewPlayer();
-                break;
-            case 2:
-                clrscr();
-                printf("To be continued");
-                break;
-            case 3:
-                clrscr();
-                *back = START_MENU;
-        }
+
+    // Load the battlePets from the competdium
+ 
+
+    displayBattleMenu();
+    scanf("%d", &nInput);
+
+    switch (nInput) {
+        case 1:
+            clrscr();
+            createNewPlayer();
+            break;
+        case 2:
+            clrscr();
+            LoadPlayers(players, &playerCount);
+            selectPlayers(players, playerCount, &player1, &player2);
+            break;
+        case 3:
+            clrscr();
+            *back = START_MENU;
+            break;
+        default:
+            clrscr();
+            printf("Invalid Input.\n\n");
+            break;
+    }
 }
+
 void displayCompetdium()
 {
     printf("=========================\n");
@@ -70,70 +84,67 @@ void displayCompetdium()
     printf("Select your input: ");
 }
 
-void displayBattlePets(bpet battlePets[]){
-	
-	for(int i = 0; i < MAX_PETS; i++){
-		
-		char * elementalType = checkElement(battlePets[i].element);
-		
-		printf("Name: %s\n", battlePets[i].name);
-		printf("Elemental Type: %s\n", elementalType);
-		printf("Description: %s\n", battlePets[i].desc);
-		printf("Matches: %d\n\n\n", battlePets[i].matches);
-	}
+void displayBattlePets(bpet battlePets[])
+{
+    for (int i = 0; i < MAX_PETS; i++) {
+        char *elementalType = checkElement(battlePets[i].element);
+        printf("Name: %s\n", battlePets[i].name);
+        printf("Elemental Type: %s\n", elementalType);
+        printf("Description: %s\n", battlePets[i].desc);
+        printf("Matches: %d\n\n\n", battlePets[i].matches);
+    }
 }
 
-void viewBattlePetsMenu(bpet battlePets[], int *nInput){
-	
-	clrscr();
-	displayBattlePets(battlePets);
-	printf("Press 0 to go Back: ");
-	scanf("%d", nInput);
-	
-	if(*nInput != 0){
-	}
+void viewBattlePetsMenu(bpet battlePets[], int *nInput)
+{
+    clrscr();
+    displayBattlePets(battlePets);
+    printf("Press 0 to go Back: ");
+    scanf("%d", nInput);
+
+    if (*nInput != 0) {
+    }
 }
 
 void competdiumMenu(int *back, bpet battlePets[])
 {
     int nInput = 0;
-    	
-    	clrscr();
-        displayCompetdium();
-        scanf("%d", &nInput);
 
-        switch(nInput) {
-            case 1:
-                clrscr();
-                do{
-                viewBattlePetsMenu(battlePets, &nInput);	
-				} while (nInput != 0);
-				
-                break;
-            case 2:
-                clrscr();
-                printf("To be continued");
-                break;
-            case 3:
-                clrscr();
-                printf("To be continued");
-                break;
-            case 4:
-                clrscr();
-                printf("To be continued");
-                break;
-            case 5:
-                clrscr();
-                printf("To be continued");
-                break;
-            case 6:
-                clrscr();
-                *back = START_MENU;
-                break;
-            default:
-                clrscr();
-                printf("Invalid Input.\n\n");
-        }
+    clrscr();
+    displayCompetdium();
+    scanf("%d", &nInput);
+
+    switch (nInput) {
+        case 1:
+            clrscr();
+            do {
+                viewBattlePetsMenu(battlePets, &nInput);
+            } while (nInput != 0);
+            break;
+        case 2:
+            clrscr();
+            printf("To be continued");
+            break;
+        case 3:
+            clrscr();
+            printf("To be continued");
+            break;
+        case 4:
+            clrscr();
+            printf("To be continued");
+            break;
+        case 5:
+            clrscr();
+            printf("To be continued");
+            break;
+        case 6:
+            clrscr();
+            *back = START_MENU;
+            break;
+        default:
+            clrscr();
+            printf("Invalid Input.\n\n");
+    }
 }
 
 void displayStatistics()
@@ -152,55 +163,54 @@ void statisticsMenu(int *back)
 {
     int nInput = 0;
 
-        displayStatistics();
-        scanf("%d", &nInput);
+    displayStatistics();
+    scanf("%d", &nInput);
 
-        switch(nInput){
-            case 1:
-                clrscr();
-                printf("To be continued");
-                break;
-            case 2:
-                clrscr();
-                printf("Top 5 Battlepets:\n 1.\n 2.");
-                break;
-            case 3:
-                clrscr();
-                *back = START_MENU;
-                break;
-            default:
-                clrscr();
-                printf("Invalid Input. \n\n");
-                break;
-        }
+    switch (nInput) {
+        case 1:
+            clrscr();
+            printf("To be continued");
+            break;
+        case 2:
+            clrscr();
+            printf("Top 5 Battlepets:\n 1.\n 2.");
+            break;
+        case 3:
+            clrscr();
+            *back = START_MENU;
+            break;
+        default:
+            clrscr();
+            printf("Invalid Input. \n\n");
+            break;
+    }
 }
 
-
 void startMenu(bpet battlePets[])
-{   
+{
     int exit = 0;
     int input = 0;
 
-    do{
+    do {
         displayStartMenu();
         scanf("%d", &input);
-    
+
         switch (input) {
             case 1:
                 clrscr();
-                do{
+                do {
                     battleMenu(&input);
                 } while (input != START_MENU);
                 break;
             case 2:
                 clrscr();
-                do{
+                do {
                     competdiumMenu(&input, battlePets);
                 } while (input != START_MENU);
                 break;
             case 3:
                 clrscr();
-                do{
+                do {
                     statisticsMenu(&input);
                 } while (input != START_MENU);
                 break;
@@ -213,5 +223,5 @@ void startMenu(bpet battlePets[])
                 clrscr();
                 printf("Invalid Input.\n\n");
         }
-    } while (exit == 0);   
+    } while (exit == 0);
 }

@@ -16,26 +16,32 @@
 #define MAX_USERNAME_LENGTH 37
 #define PLAYER_FILE "players.txt"
 
+// Define the bpet structure
+typedef struct bpet {
+    char name[50];
+    int element;
+    char desc[300];
+    int matches;
+} bpet;
+
+// Define the Player structure
+typedef struct {
+    char username[MAX_USERNAME_LENGTH + 1];
+    int wins;
+    int losses;
+    int draws;
+} Player;
+
 // Function prototypes
+void loadBattlePets(const char *filename, bpet battlePets[]);
 int checkElementIndex(char* element);
 char* checkElement(int element);
 int getBattleResult(int element1, int element2);
 int username(char *username);
 void createNewPlayer();
+void LoadPlayers(Player players[], int *playerCount);
+void SelectPlayer(Player players[], int playerCount, Player *selectedPlayer, int playerNumber);
+void selectPlayers(Player players[], int playerCount, Player *player1, Player *player2);
 
-typedef struct bpet{
-	char name[50];
-	int element;
-	char desc[300];
-	int matches;
-	
-} bpet;
-
-typedef struct {
-    char username[MAX_USERNAME_LENGTH +1];
-    int wins;
-    int losses;
-    int draws;
-} Player;
 
 #endif
