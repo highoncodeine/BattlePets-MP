@@ -14,6 +14,7 @@
 #define MAX_PETS 16
 #define MAX_PLAYERS 50
 #define MAX_USERNAME_LENGTH 37
+#define MAX_LINE 100
 #define PLAYER_FILE "players.txt"
 
 // Define the bpet structure

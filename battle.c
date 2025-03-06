@@ -19,14 +19,12 @@ int getBattleResult(int element1, int element2){
     return affinity[element1][element2]; // return 1 if element 1 wins, -1 if element 2 wins, 0 if it is a draw.
 }
 
-
-
 /**
  * Checks if a username is valid according to the specifications
  * @param username The username to validate
  * @return 1 if the username is valid, 0 otherwise
  */
-int username(char *username) 
+int validateUsername(char *username) 
 {
     int length = strlen(username);
     
@@ -63,7 +61,7 @@ int username(char *username)
     return 1;
 }
 
-/**
+/** // Format sa txt file iba dapat.
  * Creates and saves the new player to a file
  */
 void createNewPlayer()
@@ -72,7 +70,7 @@ void createNewPlayer()
     printf("New Player Username: ");
     scanf("%s", player.username);
     
-    if (username(player.username) == 1)
+    if (validateUsername(player.username) == 1)
     {
         player.wins = 0;
         player.losses = 0;
@@ -86,11 +84,13 @@ void createNewPlayer()
         }
         fprintf(file, "%s\n%d Wins\n%d Losses\n%d Draws\n\n", player.username, player.wins, player.losses, player.draws);
         fclose(file);
-
-        printf("Player saved successfully!\n");
+		
+		clrscr();
+        printf("Player saved successfully!\n\n");
     }
     else
-    {
+    {	
+    	clrscr();
         printf("Invalid username. Player not saved.\n");
         return;
     }
