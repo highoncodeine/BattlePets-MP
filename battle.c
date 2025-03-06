@@ -3,8 +3,7 @@
 #include "functions.h"
 
 int getBattleResult(int element1, int element2){
-	
-	int affinity[8][8] = {
+    int affinity[8][8] = {
         //            Fire Water Grass Earth Air Electric Ice Metal
         /*Fire*/    {  0,   -1,    1,    1,    0,    0,    1,   -1 },
         /*Water*/   {  1,    0,   -1,    0,    0,    1,   -1,    1 },
@@ -18,8 +17,6 @@ int getBattleResult(int element1, int element2){
     
     return affinity[element1][element2]; // return 1 if element 1 wins, -1 if element 2 wins, 0 if it is a draw.
 }
-
-
 
 /**
  * Checks if a username is valid according to the specifications
@@ -154,10 +151,17 @@ void SelectPlayer(Player players[], int playerCount, Player *selectedPlayer, int
     }
 
     *selectedPlayer = players[choice - 1];
+    clrscr();
     printf("Player %d has selected: %s\n", playerNumber, selectedPlayer->username);
     printf("Wins: %d\n", selectedPlayer->wins);
     printf("Losses: %d\n", selectedPlayer->losses);
     printf("Draws: %d\n", selectedPlayer->draws);
+
+    // Wait for user input before clearing the screen
+    
+    printf("Press Enter to continue...");
+    getchar(); 
+    getchar(); 
 }
 
 void selectPlayers(Player players[], int playerCount, Player *player1, Player *player2) {
@@ -165,13 +169,13 @@ void selectPlayers(Player players[], int playerCount, Player *player1, Player *p
     printf("          PLAYER SELECTION          \n");
     printf("====================================\n");
     SelectPlayer(players, playerCount, player1, 1);
+    clrscr();
    
     printf("====================================\n");
     printf("          PLAYER SELECTION          \n");
     printf("====================================\n");
     SelectPlayer(players, playerCount, player2, 2);
     clrscr();
-    
 }
 
 
