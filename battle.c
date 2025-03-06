@@ -26,7 +26,7 @@ int getBattleResult(int element1, int element2){
  * @param username The username to validate
  * @return 1 if the username is valid, 0 otherwise
  */
-int username(char *username) 
+int validateUsername(char *username) 
 {
     int length = strlen(username);
     
@@ -72,7 +72,7 @@ void createNewPlayer()
     printf("New Player Username: ");
     scanf("%s", player.username);
     
-    if (username(player.username) == 1)
+    if (validateUsername(player.username) == 1)
     {
         player.wins = 0;
         player.losses = 0;
@@ -84,13 +84,15 @@ void createNewPlayer()
             printf("Error opening file.\n");
             return;
         }
-        fprintf(file, "%s\n%d Wins\n%d Losses\n%d Draws\n\n", player.username, player.wins, player.losses, player.draws);
+        fprintf(file, "%s\n%d\n%d\n%d\n\n", player.username, player.wins, player.losses, player.draws);
         fclose(file);
 
+        clrscr();
         printf("Player saved successfully!\n");
     }
     else
     {
+        clrscr();
         printf("Invalid username. Player not saved.\n");
         return;
     }
@@ -163,10 +165,12 @@ void selectPlayers(Player players[], int playerCount, Player *player1, Player *p
     printf("          PLAYER SELECTION          \n");
     printf("====================================\n");
     SelectPlayer(players, playerCount, player1, 1);
+   
     printf("====================================\n");
     printf("          PLAYER SELECTION          \n");
     printf("====================================\n");
     SelectPlayer(players, playerCount, player2, 2);
+    clrscr();
     
 }
 

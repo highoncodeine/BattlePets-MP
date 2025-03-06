@@ -15,8 +15,9 @@
 #define MAX_PLAYERS 50
 #define MAX_USERNAME_LENGTH 37
 #define PLAYER_FILE "players.txt"
+#define MAX_LINE 100
 
-// Define the bpet structure
+// struct typedefs
 typedef struct bpet {
     char name[50];
     int element;
@@ -24,7 +25,7 @@ typedef struct bpet {
     int matches;
 } bpet;
 
-// Define the Player structure
+
 typedef struct {
     char username[MAX_USERNAME_LENGTH + 1];
     int wins;
@@ -33,15 +34,28 @@ typedef struct {
 } Player;
 
 // Function prototypes
-void loadBattlePets(const char *filename, bpet battlePets[]);
-int checkElementIndex(char* element);
-char* checkElement(int element);
+void clrscr();
+void displayStartMenu();
+void displayBattleMenu();
+void battleMenu(int *back);
+void displayCompetdium();
+void displayBattlePets(bpet battlePets[]);
+void accessBattlePets(bpet battlePets[], int index);
+void viewBattlePetsMenu(bpet battlePets[], int *nInput);
+void competdiumMenu(int *back, bpet battlePets[]);
+void displayStatistics();
+void statisticsMenu(int *back);
+void startMenu(bpet battlePets[]);
+
+// battle.c func prototypes
 int getBattleResult(int element1, int element2);
-int username(char *username);
+int validateUsername(char *username);
 void createNewPlayer();
-void LoadPlayers(Player players[], int *playerCount);
-void SelectPlayer(Player players[], int playerCount, Player *selectedPlayer, int playerNumber);
-void selectPlayers(Player players[], int playerCount, Player *player1, Player *player2);
+
+// competdium.c func prototypes
+char *checkElement(int element);
+int checkElementIndex(char* element);
+void loadBattlePets(const char *filename, bpet battlePets[]);
 
 
 #endif
