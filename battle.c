@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "functions.h"
 
 int getBattleResult(int element1, int element2){
@@ -95,7 +96,7 @@ void createNewPlayer()
     }
 }
 
-void LoadPlayers(Player players[], int *playerCount) {
+void loadPlayers(Player players[], int *playerCount){
     FILE *file = fopen(PLAYER_FILE, "r");
     if (!file) {
         printf("Error opening file.\n");
@@ -129,7 +130,7 @@ void LoadPlayers(Player players[], int *playerCount) {
     fclose(file);
 }
 
-void SelectPlayer(Player players[], int playerCount, Player *selectedPlayer, int playerNumber) {
+void selectPlayer(Player players[], int playerCount, Player *selectedPlayer, int playerNumber) {
     if (playerCount == 0) {
         printf("No players available.\n");
         return;
@@ -146,7 +147,7 @@ void SelectPlayer(Player players[], int playerCount, Player *selectedPlayer, int
 
     if (choice < 1 || choice > playerCount) {
         printf("Invalid choice. Please try again.\n");
-        SelectPlayer(players, playerCount, selectedPlayer, playerNumber);
+        selectPlayer(players, playerCount, selectedPlayer, playerNumber);
         return;
     }
 
@@ -164,17 +165,17 @@ void SelectPlayer(Player players[], int playerCount, Player *selectedPlayer, int
     getchar(); 
 }
 
-void selectPlayers(Player players[], int playerCount, Player *player1, Player *player2) {
+void displaySelectPlayers(Player players[], int playerCount, Player *player1, Player *player2) {
     printf("====================================\n");
     printf("          PLAYER SELECTION          \n");
     printf("====================================\n");
-    SelectPlayer(players, playerCount, player1, 1);
+    selectPlayer(players, playerCount, player1, 1);
     clrscr();
    
     printf("====================================\n");
     printf("          PLAYER SELECTION          \n");
     printf("====================================\n");
-    SelectPlayer(players, playerCount, player2, 2);
+    selectPlayer(players, playerCount, player2, 2);
     clrscr();
 }
 

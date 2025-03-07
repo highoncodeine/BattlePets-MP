@@ -58,8 +58,8 @@ void battleMenu(int *back)
             break;
         case 2:
             clrscr();
-            LoadPlayers(players, &playerCount);
-            selectPlayers(players, playerCount, &player1, &player2);
+            loadPlayers(players, &playerCount);
+            displaySelectPlayers(players, playerCount, &player1, &player2);
             break;
         case 3:
             clrscr();
@@ -144,7 +144,7 @@ void competdiumMenu(int *back, bpet battlePets[])
             break;
         case 2:
             clrscr();
-            printf("To be continued");
+            addBattlePet();
             break;
         case 3:
             clrscr();

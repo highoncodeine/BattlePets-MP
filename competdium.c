@@ -64,3 +64,61 @@ void loadBattlePets(const char *filename, bpet battlePets[]){
     }
 
 }
+
+void addBattlePet(){
+	
+	FILE *file = fopen("competdium.txt", "a");
+	
+	char name[50], desc[300];
+	int element;
+	int confirm = 0;
+	
+	do{
+		clrscr();
+		
+		printf("Input the name of your Battlepet: ");
+		scanf("%49s", name);
+		getchar();
+		
+		clrscr();
+		printf("Name: %s\n\n", name);
+		
+		printf("Input the element of your Battlepet:\n[0]Fire\n[1]Water\n[2]Grass\n[3]Earth\n[4]Air\n[5]Electric\n[6]Ice\n[7]Metal\n\n");
+		scanf("%d", &element);
+		getchar();
+		
+		clrscr();
+		printf("Name: %s\n", name);
+		printf("Element: %s\n\n", checkElement(element));
+		
+		printf("Write a short description for your Battlepet: ");
+		fgets(desc, sizeof(desc), stdin);
+		
+		clrscr();
+		printf("Name: %s\n", name);
+		printf("Element: %s\n\n", checkElement(element));
+		printf("%s\n\n", desc);
+		
+		printf("Is the battlepets info correct?\n[1] Yes\n[0] No\n>> ");
+		scanf("%d", &confirm);
+	
+	} while(confirm == 0);
+	
+	fprintf(file, "%s\n", name);
+	fprintf(file, "%s\n", checkElement(element));
+	fputs("0\n\n", file);
+	
+	clrscr();
+	printf("Name: %s\n", name);
+	printf("Element: %s\n\n", checkElement(element));
+	printf("%s\n", desc);
+	
+	printf("Battlepet saved succesfully.\n");
+	printf("Press Enter to continue...");
+    getchar(); 
+	getchar(); 
+	
+	clrscr();
+	
+	fclose(file);
+}
