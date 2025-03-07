@@ -93,6 +93,7 @@ void addBattlePet(){
 		
 		printf("Write a short description for your Battlepet: ");
 		fgets(desc, sizeof(desc), stdin);
+		desc[strcspn(desc, "\n")] = 0;
 		
 		clrscr();
 		printf("Name: %s\n", name);
@@ -106,7 +107,9 @@ void addBattlePet(){
 	
 	fprintf(file, "%s\n", name);
 	fprintf(file, "%s\n", checkElement(element));
-	fputs("0\n\n", file);
+	fprintf(file, "%s\n", desc);
+	fputs("0\n", file);
+	fputs("\n", file);
 	
 	clrscr();
 	printf("Name: %s\n", name);
