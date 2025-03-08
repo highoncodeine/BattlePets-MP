@@ -87,10 +87,16 @@ void displayCompetdium()
     printf("Select your input: ");
 }
 
-void displayBattlePets(bpet battlePets[])
+void displayBattlePets(bpet battlePets[], int maxPets)
 {
-    for (int i = 0; i < MAX_PETS; i++) {
-        printf("[%d]  Name: %s\n", i, battlePets[i].name);
+    for (int i = 0; i < maxPets; i++) {
+    	if(i < 10){
+    		
+        	printf(" [%d]  Name: %s\n", i, battlePets[i].name);
+        } else {
+        	
+        	printf("[%d]  Name: %s\n", i, battlePets[i].name);
+		}
     }
 }
 
@@ -104,15 +110,19 @@ void accessBattlePets(bpet battlePets[], int index){
 	printf("Matches: %d\n\n\n", battlePets[index].matches);
 }
 
-void viewBattlePetsMenu(bpet battlePets[], int *nInput)
+void viewBattlePetsMenu(bpet battlePets[], int *nInput, int maxPets)
 {
     clrscr();
-    displayBattlePets(battlePets);
+    
+    countBattlePets("competdium.txt", &maxPets);
+    
+    printf("BATTLEPET LIST: \n\n");
+    displayBattlePets(battlePets, maxPets);
     printf("\nTo view the details of a Battlepet, enter its index, Otherwise ");
 	printf("Press 0 to go Back: \n\n");
     scanf("%d", nInput);
 
-	if(*nInput > 0 && *nInput < MAX_PETS){
+	if(*nInput > 0 && *nInput < maxPets){
 		
 		clrscr();
 		accessBattlePets(battlePets, *nInput);
@@ -125,9 +135,10 @@ void viewBattlePetsMenu(bpet battlePets[], int *nInput)
 	} else {
 		
 		printf("Invalid Input\n");
+	}
 }
-}
-void competdiumMenu(int *back, bpet battlePets[])
+
+void competdiumMenu(int *back, bpet battlePets[], int maxPets)
 {
     int nInput = 0;
 
@@ -139,12 +150,12 @@ void competdiumMenu(int *back, bpet battlePets[])
         case 1:
             clrscr();
             do {
-                viewBattlePetsMenu(battlePets, &nInput);
+                viewBattlePetsMenu(battlePets, &nInput, maxPets);
             } while (nInput != 0);
             break;
         case 2:
             clrscr();
-            addBattlePet();
+            addBattlePet(battlePets);
             break;
         case 3:
             clrscr();
@@ -207,7 +218,7 @@ void statisticsMenu(int *back)
     }
 }
 
-void startMenu(bpet battlePets[])
+void startMenu(bpet battlePets[], int maxPets)
 {
     int exit = 0;
     int input = 0;
@@ -226,7 +237,7 @@ void startMenu(bpet battlePets[])
             case 2:
                 clrscr();
                 do {
-                    competdiumMenu(&input, battlePets);
+                    competdiumMenu(&input, battlePets, maxPets);
                 } while (input != START_MENU);
                 break;
             case 3:

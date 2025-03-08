@@ -27,17 +27,34 @@ int checkElementIndex(char* element){
 	return index;
 }
 
+void countBattlePets(const char *filename, int* maxPets){
+	
+	char line[500];
+	int lineCount = 0;
+	int battlePetCount = 0;
+	
+	FILE *file = fopen(filename, "r");
+	
+	while(fgets(line, sizeof(line), file)){
+		
+		lineCount++;
+		if(lineCount % 5 == 0){
+			
+			battlePetCount++;
+		}
+	}
+	
+	fclose(file);
+	
+	*maxPets = battlePetCount;
+}
+
 void loadBattlePets(const char *filename, bpet battlePets[]){
 	 
 	char temp[50];
 	
 	FILE *file = fopen(filename, "r");
 	
-    if (!file){
-    	
-        printf("Error: Could not open file.\n");
-        return;
-	}
 
     char line[400];
     int index = 0;
@@ -62,10 +79,12 @@ void loadBattlePets(const char *filename, bpet battlePets[]){
 
         index++;
     }
+    
+    fclose(file);
 
 }
 
-void addBattlePet(){
+void addBattlePet(bpet battlePets[]){
 	
 	FILE *file = fopen("competdium.txt", "a");
 	
@@ -116,6 +135,8 @@ void addBattlePet(){
 	printf("Element: %s\n\n", checkElement(element));
 	printf("%s\n", desc);
 	
+    loadBattlePets("competdium.txt", battlePets);
+    
 	printf("Battlepet saved succesfully.\n");
 	printf("Press Enter to continue...");
     getchar(); 
@@ -124,4 +145,13 @@ void addBattlePet(){
 	clrscr();
 	
 	fclose(file);
+	
+}
+
+void editBattlePet(bpet battlePets[]){
+	
+}
+
+void deleteBattlePet(bpet battlePets[]){
+	
 }

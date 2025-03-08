@@ -11,7 +11,7 @@
 #define ICE 7
 #define METAL 8
 #define START_MENU 23
-#define MAX_PETS 16
+#define MAX_PETS 50
 #define MAX_PLAYERS 50
 #define MAX_USERNAME_LENGTH 37
 #define PLAYER_FILE "players.txt"
@@ -39,13 +39,13 @@ void displayStartMenu();
 void displayBattleMenu();
 void battleMenu(int *back);
 void displayCompetdium();
-void displayBattlePets(bpet battlePets[]);
+void displayBattlePets(bpet battlePets[], int maxPets);
 void accessBattlePets(bpet battlePets[], int index);
-void viewBattlePetsMenu(bpet battlePets[], int *nInput);
-void competdiumMenu(int *back, bpet battlePets[]);
+void viewBattlePetsMenu(bpet battlePets[], int *nInput, int maxPets);
+void competdiumMenu(int *back, bpet battlePets[], int maxPets);
 void displayStatistics();
 void statisticsMenu(int *back);
-void startMenu(bpet battlePets[]);
+void startMenu(bpet battlePets[], int maxPets);
 
 // battle.c func prototypes
 int getBattleResult(int element1, int element2);
@@ -58,8 +58,9 @@ void displaySelectPlayers(Player players[], int playerCount, Player *player1, Pl
 // competdium.c func prototypes
 char *checkElement(int element);
 int checkElementIndex(char* element);
+void countBattlePets(const char *filename, int* maxPets);
 void loadBattlePets(const char *filename, bpet battlePets[]);
-void addBattlePet();
+void addBattlePet(bpet battlePets[]);
 
 
 #endif
