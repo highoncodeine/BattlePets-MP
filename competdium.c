@@ -148,8 +148,79 @@ void addBattlePet(bpet battlePets[]){
 	
 }
 
-void editBattlePet(bpet battlePets[]){
+void editBattlePets(bpet battlePets[], int maxPets){
 	
+	int nInput;
+	int modifyInput;
+	
+	char newName[50];
+	char newDesc[300];
+	int newElement;
+	int mainLoop = 1;
+	
+	do{
+		displayBattlePets(battlePets, maxPets);
+		printf("\nWhich Battlepet would you like to edit?\n>> ");
+		scanf("%d", &nInput);
+		getchar();
+		
+		if(nInput >= 0 && nInput < maxPets){
+			
+			int loop = 1;
+			int nInvalid = 1;
+			
+			do{
+				clrscr();
+				accessBattlePets(battlePets, nInput);
+				printf("What would you like to modify?\n[1] Name\n[2] Element\n[3] Description\n>> ");
+				scanf("%d", &modifyInput);
+				
+				clrscr();
+				accessBattlePets(battlePets, nInput);
+			
+				switch(modifyInput) {
+					case 1:
+						printf("Input New Name (MAX OF 50 CHARACTERS): ");
+						getchar();
+						fgets(newName, sizeof(newName), stdin);
+						loop = 0;
+						break;
+					case 2:
+						
+						do{
+							printf("[0] Fire  [1] Water  [2] Grass  [3] Earth  [4] Air  [5] Electric  [6] Ice  [7] Metal\n");
+							printf("Input New Element: ");
+							scanf("%d", &newElement);
+							getchar();
+							
+							if(newElement >= 0 && newElement <= 7){
+								nInvalid = 0;
+							} else {
+								clrscr();
+								printf("Invalid Input.\n\n");
+							}
+							loop = 0;
+						} while (nInvalid);
+						break;
+					case 3:
+						printf("Input New Description (MAX OF 300 CHARACTERS): ");
+						getchar();
+						fgets(newDesc, sizeof(newDesc), stdin);
+						loop = 0;
+						break;
+					default:
+						printf("Invalid Input.\n");
+						break;
+				}
+				
+			} while (loop);
+			
+		} else {
+			clrscr();
+			printf("[WARNING: INVALID INPUT]\n\n");
+			mainLoop = 1;
+		}
+	} while(mainLoop);
 }
 
 void deleteBattlePet(bpet battlePets[]){

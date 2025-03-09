@@ -89,6 +89,8 @@ void displayCompetdium()
 
 void displayBattlePets(bpet battlePets[], int maxPets)
 {
+	
+	printf("BATTLEPET LIST: \n\n");
     for (int i = 0; i < maxPets; i++) {
     	if(i < 10){
     		
@@ -116,7 +118,6 @@ void viewBattlePetsMenu(bpet battlePets[], int *nInput, int maxPets)
     
     countBattlePets("competdium.txt", &maxPets);
     
-    printf("BATTLEPET LIST: \n\n");
     displayBattlePets(battlePets, maxPets);
     printf("\nTo view the details of a Battlepet, enter its index, Otherwise ");
 	printf("Press 0 to go Back: \n\n");
@@ -150,6 +151,7 @@ void competdiumMenu(int *back, bpet battlePets[], int maxPets)
         case 1:
             clrscr();
             do {
+            	loadBattlePets("competdium.txt", battlePets);
                 viewBattlePetsMenu(battlePets, &nInput, maxPets);
             } while (nInput != 0);
             break;
