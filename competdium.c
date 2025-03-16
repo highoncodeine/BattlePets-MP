@@ -148,6 +148,94 @@ void addBattlePet(bpet battlePets[]){
 	
 }
 
+void editBattlePetName(const char *newName, const char *battlePetName){
+	
+	FILE *file = fopen("competdium.txt", "r");
+	FILE *tempFile = fopen(TEMP_FILE, "w");
+	char line[256];
+	int foundName = 0;
+	int nameUpdated = 0;
+	
+	while(fgets(line, sizeof(line), file)){
+		
+	    if (strncmp(line, battlePetName, strlen(battlePetName)) == 0 && line[strlen(battlePetName)] == '\n'){
+	    	
+	        fprintf(tempFile, "%s", newName); 
+	        nameUpdated = 1;
+	        
+	    } else {
+	        fprintf(tempFile, "%s", line);
+	    }
+	}
+	
+	fclose(file);
+	fclose(tempFile);
+	
+	if (nameUpdated){
+        if (remove("competdium.txt") != 0 || rename(TEMP_FILE, "competdium.txt") != 0) {
+            perror("Error updating file");
+            exit(EXIT_FAILURE);
+        }
+        printf("\nName updated successfully.\n");
+        
+    } else {
+        printf("Name '%s' not found in the file.\n", battlePetName);
+        remove(TEMP_FILE); // Cleanup temporary file
+    }
+}
+
+void editBattlePetElement(int newElementCode, const char *battlePetName){
+	
+	FILE *file = fopen("competdium.txt", "r");
+	FILE *tempFile = fopen(TEMP_FILE, "w");
+	char line[256];
+	int foundElement = 0;
+	int elementUpdated = 0;
+	char newElement[30];
+	
+	strcpy(newElement, checkElement(newElementCode));
+	
+	while (fgets(line, sizeof(line), file)) {
+        size_t len = strlen(line);
+        if (len > 0 && line[len - 1] == '\n') {
+            line[len - 1] = '\0'; 
+        }
+
+        if (foundElement) {
+            fprintf(tempFile, "%s\n", newElement);
+            elementUpdated = 1;
+            foundElement = 0;
+            
+        } else if (strcmp(line, battlePetName) == 0) {
+            fprintf(tempFile, "%s\n", line); 
+            foundElement = 1;
+            
+        } else {
+            
+            fprintf(tempFile, "%s\n", line);
+        }
+    }
+	
+	fclose(file);
+	fclose(tempFile);
+	
+	if(elementUpdated){
+        if (remove("competdium.txt") != 0 || rename(TEMP_FILE, "competdium.txt") != 0) {
+            perror("Error updating file");
+            exit(EXIT_FAILURE);
+        }
+        printf("\nElement updated successfully.\n");
+        
+    } else {
+        printf("Name '%s' not found in the file.\n", battlePetName);
+        remove(TEMP_FILE); // Cleanup temporary file
+    }
+}
+
+void editBattlePetDesc(const char *newDesc){
+	
+}
+
 void editBattlePets(bpet battlePets[], int maxPets){
 	
 	int nInput;
@@ -159,6 +247,8 @@ void editBattlePets(bpet battlePets[], int maxPets){
 	int mainLoop = 1;
 	
 	do{
+		clrscr();
+		loadBattlePets("competdium.txt", battlePets);
 		displayBattlePets(battlePets, maxPets);
 		printf("\nWhich Battlepet would you like to edit?\n>> ");
 		scanf("%d", &nInput);
@@ -183,6 +273,9 @@ void editBattlePets(bpet battlePets[], int maxPets){
 						printf("Input New Name (MAX OF 50 CHARACTERS): ");
 						getchar();
 						fgets(newName, sizeof(newName), stdin);
+						editBattlePetName(newName, battlePets[nInput].name);
+						printf("Press Enter to continue...");
+   						getchar(); 
 						loop = 0;
 						break;
 					case 2:
@@ -199,6 +292,11 @@ void editBattlePets(bpet battlePets[], int maxPets){
 								clrscr();
 								printf("Invalid Input.\n\n");
 							}
+							
+							editBattlePetElement(newElement, battlePets[nInput].name);
+							printf("Press Enter to continue...");
+   							getchar(); 
+   							
 							loop = 0;
 						} while (nInvalid);
 						break;

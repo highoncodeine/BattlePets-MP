@@ -16,6 +16,7 @@
 #define MAX_USERNAME_LENGTH 37
 #define PLAYER_FILE "players.txt"
 #define MAX_LINE 100
+#define TEMP_FILE "temp.txt"
 
 // struct typedefs
 typedef struct bpet {

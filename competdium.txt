@@ -1,4 +1,4 @@
-Solaraffe
+Solarrafe
 Fire
 A fiery and majestic giraffe that harnesses the power of the sun.
 0
@@ -76,10 +76,5 @@ A massive elephant with skin as tough as steel, capable of trampling through any
 Rustcoon
 Metal
 A clever raccoon with metallic fur that can withstand rust and corrosion, scavenging through abandoned factories.
-0
-
-Justin
-Earth
-The destroyer of worlds..
 0
 
