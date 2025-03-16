@@ -64,6 +64,11 @@ char *checkElement(int element);
 int checkElementIndex(char* element);
 void countBattlePets(const char *filename, int* maxPets);
 void loadBattlePets(const char *filename, bpet battlePets[]);
+void editBattlePetName(const char *newName, const char *battlePetName);
+void editBattlePetElement(int newElementCode, const char *battlePetName);
+void editBattlePetDesc(const char *newDesc, const char *battlePetName);
+void editBattlePets(bpet battlePets[], int maxPets);
+void deleteBattlePet(char *battlePetName);
 void addBattlePet(bpet battlePets[]);
 void saveRoster (bpet battlePets[], int maxPets, bpet roster[]);
 

@@ -113,6 +113,8 @@ void displayCompetdium()
 
 void displayBattlePets(bpet battlePets[], int maxPets)
 {
+	loadBattlePets("competdium.txt", battlePets);
+	countBattlePets("competdium.txt", &maxPets);
 	
 	printf("BATTLEPET LIST: \n\n");
     for (int i = 0; i < maxPets; i++) {
@@ -130,7 +132,7 @@ void accessBattlePets(bpet battlePets[], int index){
 	
 	char* elementalType = checkElement(battlePets[index].element);
 	
-	printf("%s\n\n", battlePets[index].name);
+	printf("BattlePet Name: %s\n", battlePets[index].name);
 	printf("Elemental Type: %s\n", elementalType);
 	printf("Description: %s\n", battlePets[index].desc);
 	printf("Matches: %d\n\n\n", battlePets[index].matches);
@@ -140,6 +142,7 @@ void viewBattlePetsMenu(bpet battlePets[], int *nInput, int maxPets)
 {
     clrscr();
     
+    loadBattlePets("competdium.txt", battlePets);
     countBattlePets("competdium.txt", &maxPets);
     
     displayBattlePets(battlePets, maxPets);
@@ -163,6 +166,16 @@ void viewBattlePetsMenu(bpet battlePets[], int *nInput, int maxPets)
 	}
 }
 
+void displayDeleteMenu(bpet battlePets[], int maxPets){
+	
+	int bpetIndex;
+	loadBattlePets("competdium.txt", battlePets);
+    displayBattlePets(battlePets, maxPets);
+    printf("\n Which BattlePet should be deleted: ");
+    scanf("%d", &bpetIndex);
+    deleteBattlePet(battlePets[bpetIndex].name);
+}
+
 void competdiumMenu(int *back, bpet battlePets[], int maxPets)
 {
     int nInput = 0;
@@ -175,7 +188,6 @@ void competdiumMenu(int *back, bpet battlePets[], int maxPets)
         case 1:
             clrscr();
             do {
-            	loadBattlePets("competdium.txt", battlePets);
                 viewBattlePetsMenu(battlePets, &nInput, maxPets);
             } while (nInput != 0);
             break;
@@ -185,11 +197,11 @@ void competdiumMenu(int *back, bpet battlePets[], int maxPets)
             break;
         case 3:
             clrscr();
-            printf("To be continued");
+			editBattlePets(battlePets, maxPets);
             break;
         case 4:
             clrscr();
-            printf("To be continued");
+            displayDeleteMenu(battlePets, maxPets);
             break;
         case 5:
             clrscr();

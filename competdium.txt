@@ -53,11 +53,6 @@ Electric
 A rat with fur that crackles with electric energy, using it to stun foes.
 0
 
-Joltaroo
-Electric
-A kangaroo with electric energy that surges through its powerful legs when it jumps.
-0
-
 Hailhound
 Ice
 A swift, fierce dog that can summon hailstorms, using the frozen pellets as weapons.
@@ -77,4 +72,6 @@ Rustcoon
 Metal
 A clever raccoon with metallic fur that can withstand rust and corrosion, scavenging through abandoned factories.
 0
+
+
 
