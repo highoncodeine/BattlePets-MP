@@ -193,7 +193,8 @@ void competdiumMenu(int *back, bpet battlePets[], int maxPets)
             break;
         case 5:
             clrscr();
-            printf("To be continued");
+            bpet roster[9];
+            saveRoster(battlePets, maxPets, roster);
             break;
         case 6:
             clrscr();

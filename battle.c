@@ -168,30 +168,69 @@ void selectPlayer(Player players[], int playerCount, Player *selectedPlayer, int
     }
 }
 
-void loadSavedRoster(char *username, bpet roster[]) {
-    clrscr();
+int loadSavedRoster(char *username, bpet roster[], bpet battlePets[], int maxPets) {
     char filename[100];
     snprintf(filename, sizeof(filename), "saved_roster/%s.txt", username);
     FILE *file = fopen(filename, "r");
-    if (!file) {
+    int error = 0; // Error flag to track issues
+    int i = 0;     // Counter for roster entries
+
+    if (file == NULL) {
         printf("Error: Could not load saved roster for %s.\n", username);
+        error = 1; // Set error flag
     } else {
-        for (int i = 0; i < 9; i++) {
-            if (fscanf(file, "%49s %d %299[^\n] %d", roster[i].name, &roster[i].element, roster[i].desc, &roster[i].matches) != 4) {
-                i = 9; // Exit the loop when the file ends
+        char line[50]; // Assuming BattlePet names are at most 49 characters long
+        while (i < 9 && error == 0) {
+            if (fgets(line, sizeof(line), file) != NULL) {
+                line[strcspn(line, "\n")] = 0; // Remove the newline character
+
+                // Find the BattlePet in the battlePets array by name
+                int found = 0;
+                for (int j = 0; j < maxPets; j++) {
+                    if (strcmp(line, battlePets[j].name) == 0) {
+                        roster[i] = battlePets[j]; // Copy the full BattlePet details to the roster
+                        found = 1;
+                    }
+                }
+
+                if (found == 0) {
+                    printf("Error: BattlePet '%s' not found in ComPetDium.\n", line);
+                    error = 1; // Set error flag
+                } else {
+                    i++;
+                }
+            } else {
+                error = 1; // Set error flag if fewer than 9 lines are read
             }
         }
+
         fclose(file);
-        printf("Loaded saved roster for %s.\n", username);
+
+        if (i < 9 && error == 0) {
+            printf("Error: Saved roster for %s is incomplete or corrupted.\n", username);
+            error = 1; // Set error flag
+        }
     }
+
+    if (error == 0) {
+        printf("Loaded saved roster for %s successfully.\n", username);
+
+        // Display the final match roster
+        printf("\nFinal Match Roster:\n");
+        for (int i = 0; i < 9; i++) {
+            printf("<%s> ", roster[i].name);
+            if ((i + 1) % 3 == 0) printf("\n");
+        }
+    }
+
+    return error == 0; // Return 1 for success, 0 for failure
 }
 
 void createRoster(bpet battlePets[], int maxPets, bpet roster[]) {
-
     int count = 0;
 
     while (count < 9) {
-        clrscr();
+        clrscr(); // Clear the screen at the start of the loop
         printf("Match Roster:\n");
         for (int i = 0; i < 9; i++) {
             printf("<%s> ", count > i ? roster[i].name : "?");
@@ -215,10 +254,11 @@ void createRoster(bpet battlePets[], int maxPets, bpet roster[]) {
         int choice;
         scanf("%d", &choice);
 
-        if (choice < 1 || choice > maxPets) 
-        {
-            clrscr();
+        if (choice < 1 || choice > maxPets) {
             printf("Invalid choice. Try again.\n");
+            printf("Press Enter to continue...");
+            getchar(); // Consume the newline character left by scanf
+            getchar(); // Wait for the user to press Enter
         } else {
             int alreadySelected = 0;
             for (int j = 0; j < count; j++) {
@@ -228,20 +268,31 @@ void createRoster(bpet battlePets[], int maxPets, bpet roster[]) {
             }
 
             if (alreadySelected) {
-                clrscr();
                 printf("BattlePet already selected. Choose another.\n");
+                printf("Press Enter to continue...");
+                getchar(); // Consume the newline character left by scanf
+                getchar(); // Wait for the user to press Enter
             } else {
                 roster[count] = battlePets[choice - 1];
                 count++;
             }
         }
     }
+
+    // Final display of the completed roster
+    clrscr();
+    printf("Final Match Roster:\n");
+    for (int i = 0; i < 9; i++) {
+        printf("<%s> ", roster[i].name);
+        if ((i + 1) % 3 == 0) printf("\n");
+    }
+
 }
 
 void selectRoster(Player *player, bpet battlePets[], int maxPets, bpet roster[]) {
     int valid = 0;
     while (!valid) {
-        clrscr();
+        clrscr(); // Clear the screen at the start of the menu
         printf("Player %s Roster\n", player->username);
         printf("[1] Load saved roster\n");
         printf("[2] Create roster for this match\n");
@@ -250,16 +301,32 @@ void selectRoster(Player *player, bpet battlePets[], int maxPets, bpet roster[])
         scanf("%d", &choice);
 
         if (choice == 1) {
-            loadSavedRoster(player->username, roster);
-            valid = 1;
+            if (loadSavedRoster(player->username, roster, battlePets, maxPets)) {
+                printf("Press Enter to continue...");
+                getchar(); // Consume the newline character left by scanf
+                getchar(); // Wait for the user to press Enter
+                clrscr(); // Clear the screen after the user presses Enter
+                valid = 1; // Exit the loop if loading was successful
+            } else {
+                printf("Returning to roster selection...\n");
+                printf("Press Enter to continue...");
+                getchar(); // Consume the newline character left by scanf
+                getchar(); // Wait for the user to press Enter
+            }
         } else if (choice == 2) {
             createRoster(battlePets, maxPets, roster);
-            valid = 1;
+            printf("Press Enter to continue...");
+            getchar();
+            getchar(); 
+            clrscr(); 
+            valid = 1; // Exit the loop after creating the roster
         } else {
-            clrscr();
             printf("Invalid choice. Please try again.\n");
+            printf("Press Enter to continue...");
+            getchar(); 
+            getchar(); 
         }
-    }
+    } 
 }
 
 

@@ -55,7 +55,7 @@ int validateUsername(char *username);
 void createNewPlayer();
 void loadPlayers(Player players[], int *playerCount);
 void selectPlayer(Player players[], int playerCount, Player *selectedPlayer, int playerNumber);
-void loadSavedRoster(char *username, bpet roster[]);
+int loadSavedRoster(char *username, bpet roster[], bpet battlePets[], int maxPets);
 void createRoster(bpet battlePets[], int maxPets, bpet roster[]);
 void selectRoster(Player *player, bpet battlePets[], int maxPets, bpet roster[]);
 
@@ -65,6 +65,7 @@ int checkElementIndex(char* element);
 void countBattlePets(const char *filename, int* maxPets);
 void loadBattlePets(const char *filename, bpet battlePets[]);
 void addBattlePet(bpet battlePets[]);
+void saveRoster (bpet battlePets[], int maxPets, bpet roster[]);
 
 
 #endif
