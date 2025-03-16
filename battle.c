@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "functions.h"
 
-int getBattleResult(int element1, int element2){
+int getBattleResult(int element1, int element2) {
     int affinity[8][8] = {
         //            Fire Water Grass Earth Air Electric Ice Metal
         /*Fire*/    {  0,   -1,    1,    1,    0,    0,    1,   -1 },
@@ -24,8 +24,7 @@ int getBattleResult(int element1, int element2){
  * @param username The username to validate
  * @return 1 if the username is valid, 0 otherwise
  */
-int validateUsername(char *username) 
-{
+int validateUsername(char *username) {
     int length = strlen(username);
     
     // Check if username is within the allowed length
@@ -39,16 +38,13 @@ int validateUsername(char *username)
         
         // Check if character is alphanumeric
         if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9')) {
-            continue;
+            // Valid character
+        } else if (c == '@' || c == '_' || c == '-' || c == '+' || c == '#' || c == '$' || c == '!' || c == '.') {
+            // Valid special character
+        } else {
+            // Invalid character
+            return 0;
         }
-        
-        // Check if character is one of the allowed special characters
-        if (c == '@' || c == '_' || c == '-' || c == '+' || c == '#' || c == '$' || c == '!' || c == '.') {
-            continue;
-        }
-        
-        // Character is not allowed
-        return 0;
     }
     
     // Check if username contains spaces
@@ -96,88 +92,180 @@ void createNewPlayer()
     }
 }
 
-void loadPlayers(Player players[], int *playerCount){
+void loadPlayers(Player players[], int *playerCount) {
+    clrscr();
     FILE *file = fopen(PLAYER_FILE, "r");
     if (!file) {
         printf("Error opening file.\n");
-        return;
+    } else {
+        *playerCount = 0;
+        char buffer[256];
+        while (fgets(buffer, sizeof(buffer), file) && *playerCount < MAX_PLAYERS) {
+            // username
+            strcpy(players[*playerCount].username, strtok(buffer, "\n"));
+
+            // wins
+            fgets(buffer, sizeof(buffer), file);
+            players[*playerCount].wins = atoi(buffer);
+
+            // losses
+            fgets(buffer, sizeof(buffer), file);
+            players[*playerCount].losses = atoi(buffer);
+
+            // draws
+            fgets(buffer, sizeof(buffer), file);
+            players[*playerCount].draws = atoi(buffer);
+
+            // Skip the empty line
+            fgets(buffer, sizeof(buffer), file);
+
+            (*playerCount)++;
+        }
+
+        fclose(file);
+        printf("Players loaded successfully.\n");
     }
-
-    *playerCount = 0;
-    char buffer[256];
-    while (fgets(buffer, sizeof(buffer), file) && *playerCount < MAX_PLAYERS) {
-        // username
-        strcpy(players[*playerCount].username, strtok(buffer, "\n"));
-
-        // wins
-        fgets(buffer, sizeof(buffer), file);
-        players[*playerCount].wins = atoi(buffer);
-
-        // losses
-        fgets(buffer, sizeof(buffer), file);
-        players[*playerCount].losses = atoi(buffer);
-
-        // draws
-        fgets(buffer, sizeof(buffer), file);
-        players[*playerCount].draws = atoi(buffer);
-
-        
-        fgets(buffer, sizeof(buffer), file);
-
-        (*playerCount)++;
-    }
-
-    fclose(file);
 }
 
 void selectPlayer(Player players[], int playerCount, Player *selectedPlayer, int playerNumber) {
-    if (playerCount == 0) {
-        printf("No players available.\n");
-        return;
+    int valid = 0;
+
+    while (!valid) {
+        clrscr();
+        if (playerCount == 0) {
+            printf("No players available.\n");
+            valid = 1; // Exit the loop
+        } else {
+            printf("Player %d, select a player:\n", playerNumber);
+            for (int i = 0; i < playerCount; i++) {
+                printf("%d. %s\n", i + 1, players[i].username);
+            }
+
+            int choice;
+            printf(">> ");
+            scanf("%d", &choice);
+
+            if (choice < 1 || choice > playerCount) {
+                clrscr();
+                printf("Invalid choice. Please try again.\n");
+            } else {
+                *selectedPlayer = players[choice - 1];
+                clrscr();
+                printf("Player %d has selected: %s\n", playerNumber, selectedPlayer->username);
+                printf("Wins: %d\n", selectedPlayer->wins);
+                printf("Losses: %d\n", selectedPlayer->losses);
+                printf("Draws: %d\n", selectedPlayer->draws);
+
+                
+                // Wait for user input before clearing the screen
+                printf("Press Enter to continue...");
+                getchar(); // Consume the newline character left by scanf
+                getchar(); // Wait for the user to press Enter
+                valid = 1;
+                
+            }
+        }
     }
-
-    printf("Player %d, select a player:\n", playerNumber);
-    for (int i = 0; i < playerCount; i++) {
-        printf("%d. %s\n", i + 1, players[i].username);
-    }
-
-    int choice;
-    printf(">> ");
-    scanf("%d", &choice);
-
-    if (choice < 1 || choice > playerCount) {
-        printf("Invalid choice. Please try again.\n");
-        selectPlayer(players, playerCount, selectedPlayer, playerNumber);
-        return;
-    }
-
-    *selectedPlayer = players[choice - 1];
-    clrscr();
-    printf("Player %d has selected: %s\n", playerNumber, selectedPlayer->username);
-    printf("Wins: %d\n", selectedPlayer->wins);
-    printf("Losses: %d\n", selectedPlayer->losses);
-    printf("Draws: %d\n", selectedPlayer->draws);
-
-    // Wait for user input before clearing the screen
-    
-    printf("Press Enter to continue...");
-    getchar(); 
-    getchar(); 
 }
 
-void displaySelectPlayers(Player players[], int playerCount, Player *player1, Player *player2) {
-    printf("====================================\n");
-    printf("          PLAYER SELECTION          \n");
-    printf("====================================\n");
-    selectPlayer(players, playerCount, player1, 1);
+void loadSavedRoster(char *username, bpet roster[]) {
     clrscr();
-   
-    printf("====================================\n");
-    printf("          PLAYER SELECTION          \n");
-    printf("====================================\n");
-    selectPlayer(players, playerCount, player2, 2);
-    clrscr();
+    char filename[100];
+    snprintf(filename, sizeof(filename), "saved_roster/%s.txt", username);
+    FILE *file = fopen(filename, "r");
+    if (!file) {
+        printf("Error: Could not load saved roster for %s.\n", username);
+    } else {
+        for (int i = 0; i < 9; i++) {
+            if (fscanf(file, "%49s %d %299[^\n] %d", roster[i].name, &roster[i].element, roster[i].desc, &roster[i].matches) != 4) {
+                i = 9; // Exit the loop when the file ends
+            }
+        }
+        fclose(file);
+        printf("Loaded saved roster for %s.\n", username);
+    }
 }
+
+void createRoster(bpet battlePets[], int maxPets, bpet roster[]) {
+
+    int count = 0;
+
+    while (count < 9) {
+        clrscr();
+        printf("Match Roster:\n");
+        for (int i = 0; i < 9; i++) {
+            printf("<%s> ", count > i ? roster[i].name : "?");
+            if ((i + 1) % 3 == 0) printf("\n");
+        }
+
+        printf("\nComPetDium:\n");
+        for (int i = 0; i < maxPets; i++) {
+            int alreadySelected = 0;
+            for (int j = 0; j < count; j++) {
+                if (strcmp(battlePets[i].name, roster[j].name) == 0) {
+                    alreadySelected = 1;
+                }
+            }
+            if (!alreadySelected) {
+                printf("[%d] %s\n", i + 1, battlePets[i].name);
+            }
+        }
+
+        printf(">> ");
+        int choice;
+        scanf("%d", &choice);
+
+        if (choice < 1 || choice > maxPets) 
+        {
+            clrscr();
+            printf("Invalid choice. Try again.\n");
+        } else {
+            int alreadySelected = 0;
+            for (int j = 0; j < count; j++) {
+                if (strcmp(battlePets[choice - 1].name, roster[j].name) == 0) {
+                    alreadySelected = 1;
+                }
+            }
+
+            if (alreadySelected) {
+                clrscr();
+                printf("BattlePet already selected. Choose another.\n");
+            } else {
+                roster[count] = battlePets[choice - 1];
+                count++;
+            }
+        }
+    }
+}
+
+void selectRoster(Player *player, bpet battlePets[], int maxPets, bpet roster[]) {
+    int valid = 0;
+    while (!valid) {
+        clrscr();
+        printf("Player %s Roster\n", player->username);
+        printf("[1] Load saved roster\n");
+        printf("[2] Create roster for this match\n");
+        printf(">> ");
+        int choice;
+        scanf("%d", &choice);
+
+        if (choice == 1) {
+            loadSavedRoster(player->username, roster);
+            valid = 1;
+        } else if (choice == 2) {
+            createRoster(battlePets, maxPets, roster);
+            valid = 1;
+        } else {
+            clrscr();
+            printf("Invalid choice. Please try again.\n");
+        }
+    }
+}
+
+
+
+
+
 
 
 

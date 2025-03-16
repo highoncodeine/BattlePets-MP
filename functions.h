@@ -46,6 +46,7 @@ void competdiumMenu(int *back, bpet battlePets[], int maxPets);
 void displayStatistics();
 void statisticsMenu(int *back);
 void startMenu(bpet battlePets[], int maxPets);
+void displaySelect();
 
 // battle.c func prototypes
 int getBattleResult(int element1, int element2);
@@ -53,7 +54,9 @@ int validateUsername(char *username);
 void createNewPlayer();
 void loadPlayers(Player players[], int *playerCount);
 void selectPlayer(Player players[], int playerCount, Player *selectedPlayer, int playerNumber);
-void displaySelectPlayers(Player players[], int playerCount, Player *player1, Player *player2);
+void loadSavedRoster(char *username, bpet roster[]);
+void createRoster(bpet battlePets[], int maxPets, bpet roster[]);
+void selectRoster(Player *player, bpet battlePets[], int maxPets, bpet roster[]);
 
 // competdium.c func prototypes
 char *checkElement(int element);

@@ -28,47 +28,71 @@ void displayBattleMenu()
     printf("       BATTLE MENU       \n");
     printf("=========================\n");
     printf("[1] Create New Player\n");
-    printf("[2] Load Player\n");
+    printf("[2] Select Player\n");
     printf("[3] Go Back to Start Menu\n");
     printf("=========================\n");
     printf("Select your input: ");
 }
 
-void displayPlayers(){
+void displaySelect(){
 	printf("=========================\n");
-    printf("    SELECT PLAYER ONE       \n");
+    printf("     PLAYER SELECTION       \n");
     printf("=========================\n");
     
 }
 
+
 void battleMenu(int *back)
 {
-    int nInput = 0;
+    int nInput;
     Player players[MAX_PLAYERS];
     int playerCount = 0;
     Player player1, player2;
+    bpet battlePets[MAX_PETS];
+    bpet roster1[9], roster2[9];
+    int maxPets = 0;
+
+    loadBattlePets("competdium.txt", battlePets); // Load BattlePets from competdium.txt
+    countBattlePets("competdium.txt", &maxPets); // Count the number of BattlePets
 
     displayBattleMenu();
     scanf("%d", &nInput);
 
-    switch (nInput) {
-        case 1:
-            clrscr();
-            createNewPlayer();
-            break;
-        case 2:
-            clrscr();
-            loadPlayers(players, &playerCount);
-            displaySelectPlayers(players, playerCount, &player1, &player2);
-            break;
-        case 3:
-            clrscr();
-            *back = START_MENU;
-            break;
-        default:
-            clrscr();
-            printf("Invalid Input.\n\n");
-            break;
+    switch (nInput)
+    {
+    case 1:
+        clrscr();
+        createNewPlayer();
+        break;
+    case 2:
+        clrscr();
+        loadPlayers(players, &playerCount);
+
+        // Player 1 selects their player and roster
+        displaySelect();
+        selectPlayer(players, playerCount, &player1, 1);
+        clrscr();
+        printf("Player 1: %s, select your roster.\n", player1.username);
+        selectRoster(&player1, battlePets, maxPets, roster1);
+
+        // Player 2 selects their player and roster
+        displaySelect();
+        selectPlayer(players, playerCount, &player2, 2);
+        clrscr();
+        printf("Player 2: %s, select your roster.\n", player2.username);
+        selectRoster(&player2, battlePets, maxPets, roster2);
+
+        clrscr();
+        printf("Both players have selected their players and rosters. Ready to battle!\n");
+        break;
+    case 3:
+        clrscr();
+        *back = START_MENU;
+        break;
+    default:
+        clrscr();
+        printf("Invalid Input.\n\n");
+        break;
     }
 }
 
