@@ -75,3 +75,9 @@ A clever raccoon with metallic fur that can withstand rust and corrosion, scaven
 
 
 
+
+DerVoltage
+Electric
+She eats all her opponents and converts their enegery to electric bolts that kills all enemies.
+0
+
