@@ -3,21 +3,7 @@
 #include <stdlib.h>
 #include "functions.h"
 
-int getBattleResult(int element1, int element2) {
-    int affinity[8][8] = {
-        //            Fire Water Grass Earth Air Electric Ice Metal
-        /*Fire*/    {  0,   -1,    1,    1,    0,    0,    1,   -1 },
-        /*Water*/   {  1,    0,   -1,    0,    0,    1,   -1,    1 },
-        /*Grass*/   { -1,    1,    0,    1,   -1,    1,   -1,    0 },
-        /*Earth*/   { -1,    0,   -1,    0,    1,   -1,    0,    1 },
-        /*Air*/     {  0,    0,    1,   -1,    0,    1,   -1,   -1 },
-        /*Electric*/{  0,   -1,   -1,    1,   -1,    0,   -1,    1 },
-        /*Ice*/     { -1,    1,    1,    0,    1,    1,    0,   -1 },
-        /*Metal*/   {  1,   -1,    0,   -1,    1,   -1,    1,    0 }
-    };
-    
-    return affinity[element1][element2]; // return 1 if element 1 wins, -1 if element 2 wins, 0 if it is a draw.
-}
+
 
 /**
  * Checks if a username is valid according to the specifications
@@ -329,6 +315,108 @@ void selectRoster(Player *player, bpet battlePets[], int maxPets, bpet roster[])
     } 
 }
 
+int getBattleResult(int element1, int element2) {
+    int affinity[8][8] = {
+        //            Fire Water Grass Earth Air Electric Ice Metal
+        /*Fire*/    {  0,   -1,    1,    1,    0,    0,    1,   -1 },
+        /*Water*/   {  1,    0,   -1,    0,    0,    1,   -1,    1 },
+        /*Grass*/   { -1,    1,    0,    1,   -1,    1,   -1,    0 },
+        /*Earth*/   { -1,    0,   -1,    0,    1,   -1,    0,    1 },
+        /*Air*/     {  0,    0,    1,   -1,    0,    1,   -1,   -1 },
+        /*Electric*/{  0,   -1,   -1,    1,   -1,    0,   -1,    1 },
+        /*Ice*/     { -1,    1,    1,    0,    1,    1,    0,   -1 },
+        /*Metal*/   {  1,   -1,    0,   -1,    1,   -1,    1,    0 }
+    };
+    
+    return affinity[element1][element2]; // return 1 if element 1 wins, -1 if element 2 wins, 0 if it is a draw.
+}
+
+void Fight(Player *player1, Player *player2, bpet roster1[], bpet roster2[], int results[3][3]){
+    clrscr();
+    printf("%s (Player 1) vs %s (Player 2)\n\n", player1->username, player2->username);
+    printf("BattlePets, Fight!\n");
+    
+    
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+         int index = i * 3 + j;
+         int result = getBattleResult(roster1[index].element, roster2[index].element);
+         //display grid index and battlePets
+         printf("[%d][%d] %s vs. %s\n", i, j, roster1[index].name, roster2[index].name); 
+        
+        // store result sa 2d array na results
+        if (result == 1)
+        results[i][j] = 1; // player 1 wins
+        else if (result == -1)
+        results[i][j] = 2; // player 2 wins
+        else
+        results[i][j] = 0; // draw
+        
+    }
+    
+}
+    printf("\nPress Enter to continue... ");
+    getchar();
+}
+
+void showMatchResults(Player *player1, Player *player2, int results[3][3]) {
+    clrscr();
+    int player1Wins = 0, player2Wins = 0;
+
+    printf("\nMatch Results\n");
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (results[i][j] == 1) player1Wins++;
+            if (results[i][j] == 2) player2Wins++;
+
+            /* 1: Player 1 wins
+               2: Player 2 wins
+               D: Draw         */
+            if (results[i][j] == 1) {
+                printf("[1] ");
+            } else if (results[i][j] == 2) {
+                printf("[2] ");
+            } else {
+                printf("[D] ");
+            }
+        }
+        printf("\n");
+    }
+
+    // Lucky Win
+    int luckyWin = 0;
+    for (int i = 0; i < 3; i++) {
+        // rows and columns
+        if ((results[i][0] == results[i][1] && results[i][1] == results[i][2] && results[i][0] != 0) ||
+            (results[0][i] == results[1][i] && results[1][i] == results[2][i] && results[0][i] != 0)) {
+            luckyWin = results[i][i];
+        }
+    }
+    // diagonals
+    if ((results[0][0] == results[1][1] && results[1][1] == results[2][2] && results[0][0] != 0) ||
+        (results[0][2] == results[1][1] && results[1][1] == results[2][0] && results[0][2] != 0)) {
+        luckyWin = results[1][1];
+    }
+
+    // winner
+    if (luckyWin == 1) {
+        printf("\nWinner: %s (Player 1) [Lucky Win]\n", player1->username);
+    } else if (luckyWin == 2) {
+        printf("\nWinner: %s (Player 2) [Lucky Win]\n", player2->username);
+    } else if (player1Wins > player2Wins) {
+        printf("\nWinner: %s (Player 1) [Majority Win]\n", player1->username);
+    } else if (player2Wins > player1Wins) {
+        printf("\nWinner: %s (Player 2) [Majority Win]\n", player2->username);
+    } else {
+        printf("\nThe match is a draw!\n");
+    }
+    printf("Press Enter to play again... ");
+    getchar();
+    clrscr();
+
+}
 
 
 

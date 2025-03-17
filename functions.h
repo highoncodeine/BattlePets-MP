@@ -58,6 +58,8 @@ void selectPlayer(Player players[], int playerCount, Player *selectedPlayer, int
 int loadSavedRoster(char *username, bpet roster[], bpet battlePets[], int maxPets);
 void createRoster(bpet battlePets[], int maxPets, bpet roster[]);
 void selectRoster(Player *player, bpet battlePets[], int maxPets, bpet roster[]);
+void Fight(Player *player1, Player *player2, bpet roster1[], bpet roster2[], int results[3][3]);
+void showMatchResults (Player *player1, Player *player2, int results[3][3]);
 
 // competdium.c func prototypes
 char *checkElement(int element);

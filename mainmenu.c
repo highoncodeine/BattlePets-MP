@@ -51,6 +51,7 @@ void battleMenu(int *back)
     bpet battlePets[MAX_PETS];
     bpet roster1[9], roster2[9];
     int maxPets = 0;
+    int results[3][3];
 
     loadBattlePets("competdium.txt", battlePets); // Load BattlePets from competdium.txt
     countBattlePets("competdium.txt", &maxPets); // Count the number of BattlePets
@@ -84,6 +85,8 @@ void battleMenu(int *back)
 
         clrscr();
         printf("Both players have selected their players and rosters. Ready to battle!\n");
+        Fight(&player1, &player2, roster1, roster2, results);
+        showMatchResults(&player1, &player2, results);
         break;
     case 3:
         clrscr();
