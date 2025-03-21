@@ -61,8 +61,10 @@ int loadSavedRoster(char *username, bpet roster[], bpet battlePets[], int maxPet
 void createRoster(bpet battlePets[], int maxPets, bpet roster[]);
 void selectRoster(Player *player, bpet battlePets[], int maxPets, bpet roster[]);
 void Fight(Player *player1, Player *player2, bpet roster1[], bpet roster2[], int results[3][3]);
-void showMatchResults (Player *player1, Player *player2, int results[3][3]);
-
+void displayMatchResultsGrid(int results[3][3], int *player1Wins, int *player2Wins);
+void showMatchResults(Player *player1, Player *player2, int results[3][3]);
+void determineWinner(Player *player1, Player *player2, int results[3][3], int player1Wins, int player2Wins);
+void updatePlayerStats(Player *player1, Player *player2, int results[3][3]);
 // competdium.c func prototypes
 char *checkElement(int element);
 int checkElementIndex(char* element);

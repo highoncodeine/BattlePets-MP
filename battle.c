@@ -362,15 +362,13 @@ void Fight(Player *player1, Player *player2, bpet roster1[], bpet roster2[], int
     getchar();
 }
 
-void showMatchResults(Player *player1, Player *player2, int results[3][3]) {
-    clrscr();
-    int player1Wins = 0, player2Wins = 0;
 
+void displayMatchResultsGrid(int results[3][3], int *player1Wins, int *player2Wins) {
     printf("\nMatch Results\n");
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
-            if (results[i][j] == 1) player1Wins++;
-            if (results[i][j] == 2) player2Wins++;
+            if (results[i][j] == 1) (*player1Wins)++;
+            if (results[i][j] == 2) (*player2Wins)++;
 
             /* 1: Player 1 wins
                2: Player 2 wins
@@ -385,23 +383,27 @@ void showMatchResults(Player *player1, Player *player2, int results[3][3]) {
         }
         printf("\n");
     }
+}
 
-    // Lucky Win
+
+void determineWinner(Player *player1, Player *player2, int results[3][3], int player1Wins, int player2Wins) {
     int luckyWin = 0;
+
+    
     for (int i = 0; i < 3; i++) {
-        // rows and columns
         if ((results[i][0] == results[i][1] && results[i][1] == results[i][2] && results[i][0] != 0) ||
             (results[0][i] == results[1][i] && results[1][i] == results[2][i] && results[0][i] != 0)) {
             luckyWin = results[i][i];
         }
     }
-    // diagonals
+
+    
     if ((results[0][0] == results[1][1] && results[1][1] == results[2][2] && results[0][0] != 0) ||
         (results[0][2] == results[1][1] && results[1][1] == results[2][0] && results[0][2] != 0)) {
         luckyWin = results[1][1];
     }
 
-    // winner
+    
     if (luckyWin == 1) {
         printf("\nWinner: %s (Player 1) [Lucky Win]\n", player1->username);
     } else if (luckyWin == 2) {
@@ -413,11 +415,78 @@ void showMatchResults(Player *player1, Player *player2, int results[3][3]) {
     } else {
         printf("\nThe match is a draw!\n");
     }
+}
+
+
+void showMatchResults(Player *player1, Player *player2, int results[3][3]) {
+    clrscr();
+    int player1Wins = 0, player2Wins = 0;
+    
+    
+    displayMatchResultsGrid(results, &player1Wins, &player2Wins);
+
+    
+    determineWinner(player1, player2, results, player1Wins, player2Wins);
+
+    updatePlayerStats(player1, player2, results);
+
     printf("Press Enter to play again... ");
     getchar();
     clrscr();
-
 }
+
+void updatePlayerStats(Player *player1, Player *player2, int results[3][3]) {
+    Player players[MAX_PLAYERS];
+    int playerCount = 0;
+
+  
+    loadPlayers(players, &playerCount);
+
+    
+    int player1Wins = 0, player2Wins = 0;
+    displayMatchResultsGrid(results, &player1Wins, &player2Wins);
+
+    
+    determineWinner(player1, player2, results, player1Wins, player2Wins);
+
+
+    for (int i = 0; i < playerCount; i++) {
+        if (strcmp(players[i].username, player1->username) == 0) {
+            if (player1Wins > player2Wins) {
+                players[i].wins++;
+            } else if (player2Wins > player1Wins) {
+                players[i].losses++;
+            } else {
+                players[i].draws++;
+            }
+        } else if (strcmp(players[i].username, player2->username) == 0) {
+            if (player2Wins > player1Wins) {
+                players[i].wins++;
+            } else if (player1Wins > player2Wins) {
+                players[i].losses++;
+            } else {
+                players[i].draws++;
+            }
+        }
+    }
+
+    
+    FILE *file = fopen("players.txt", "w");
+    if (!file) {
+        printf("Error: Could not open players.txt for writing.\n");
+        return;
+    }
+
+    for (int i = 0; i < playerCount; i++) {
+        fprintf(file, "%s\n%d\n%d\n%d\n\n", players[i].username, players[i].wins, players[i].losses, players[i].draws);
+    }
+    fclose(file);
+
+    printf("Player stats updated successfully.\n");
+}
+
+
+
 
 
 
