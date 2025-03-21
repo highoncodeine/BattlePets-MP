@@ -79,6 +79,7 @@ void createNewPlayer()
 }
 
 void loadPlayers(Player players[], int *playerCount) {
+	
     clrscr();
     FILE *file = fopen(PLAYER_FILE, "r");
     if (!file) {
@@ -87,6 +88,7 @@ void loadPlayers(Player players[], int *playerCount) {
         *playerCount = 0;
         char buffer[256];
         while (fgets(buffer, sizeof(buffer), file) && *playerCount < MAX_PLAYERS) {
+        	
             // username
             strcpy(players[*playerCount].username, strtok(buffer, "\n"));
 
@@ -109,7 +111,6 @@ void loadPlayers(Player players[], int *playerCount) {
         }
 
         fclose(file);
-        printf("Players loaded successfully.\n");
     }
 }
 

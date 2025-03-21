@@ -35,18 +35,20 @@ typedef struct {
 } Player;
 
 // Function prototypes
+
+// main menu.c func prototypes
 void clrscr();
 void displayStartMenu();
 void displayBattleMenu();
-void battleMenu(int *back);
+void battleMenu(int *back, int playerCount, int maxPets, Player players[]);
 void displayCompetdium();
 void displayBattlePets(bpet battlePets[], int maxPets);
 void accessBattlePets(bpet battlePets[], int index);
 void viewBattlePetsMenu(bpet battlePets[], int *nInput, int maxPets);
 void competdiumMenu(int *back, bpet battlePets[], int maxPets);
 void displayStatistics();
-void statisticsMenu(int *back);
-void startMenu(bpet battlePets[], int maxPets);
+void statisticsMenu(int *back, Player players[], bpet battlePets[], int maxPets, int playerCount);
+void startMenu(bpet battlePets[], Player players[], int maxPets, int playerCount);
 void displaySelect();
 
 // battle.c func prototypes
@@ -74,5 +76,8 @@ void deleteBattlePet(char *battlePetName);
 void addBattlePet(bpet battlePets[]);
 void saveRoster (bpet battlePets[], int maxPets, bpet roster[]);
 
+// statistics.c func prototypes
+void printTopFive(Player players[], int playerCount);
+void displayTopPlayers(Player sortedPlayers[]);
 
 #endif

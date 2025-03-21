@@ -42,15 +42,12 @@ void displaySelect(){
 }
 
 
-void battleMenu(int *back)
+void battleMenu(int *back, int playerCount, int maxPets, Player players[])
 {
     int nInput;
-    Player players[MAX_PLAYERS];
-    int playerCount = 0;
     Player player1, player2;
     bpet battlePets[MAX_PETS];
     bpet roster1[9], roster2[9];
-    int maxPets = 0;
     int results[3][3];
 
     loadBattlePets("competdium.txt", battlePets); // Load BattlePets from competdium.txt
@@ -233,7 +230,7 @@ void displayStatistics()
     printf("Select your input: ");
 }
 
-void statisticsMenu(int *back)
+void statisticsMenu(int *back, Player players[], bpet battlePets[], int maxPets, int playerCount)
 {
     int nInput = 0;
 
@@ -243,7 +240,9 @@ void statisticsMenu(int *back)
     switch (nInput) {
         case 1:
             clrscr();
-            printf("To be continued");
+            loadPlayers(players, &playerCount);
+            printTopFive(players, playerCount);
+            clrscr();
             break;
         case 2:
             clrscr();
@@ -260,7 +259,7 @@ void statisticsMenu(int *back)
     }
 }
 
-void startMenu(bpet battlePets[], int maxPets)
+void startMenu(bpet battlePets[], Player players[], int maxPets, int playerCount)
 {
     int exit = 0;
     int input = 0;
@@ -273,7 +272,7 @@ void startMenu(bpet battlePets[], int maxPets)
             case 1:
                 clrscr();
                 do {
-                    battleMenu(&input);
+                    battleMenu(&input, playerCount, maxPets, players);
                 } while (input != START_MENU);
                 break;
             case 2:
@@ -285,7 +284,7 @@ void startMenu(bpet battlePets[], int maxPets)
             case 3:
                 clrscr();
                 do {
-                    statisticsMenu(&input);
+                    statisticsMenu(&input, players, battlePets, maxPets, playerCount);
                 } while (input != START_MENU);
                 break;
             case 4:
