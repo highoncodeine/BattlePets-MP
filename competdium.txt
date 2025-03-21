@@ -1,7 +1,7 @@
 Solarrafe
 Fire
 A fiery and majestic giraffe that harnesses the power of the sun.
-0
+4
 
 Firepupp
 Fire
@@ -73,17 +73,13 @@ Metal
 A clever raccoon with metallic fur that can withstand rust and corrosion, scavenging through abandoned factories.
 0
 
-
-
-
 DerVoltage
 Electric
 She eats all her opponents and converts their enegery to electric bolts that kills all enemies.
-0
+61
 
-
-Nothing
-Water
-na
+Geodude
+Earth
+Disabled rock person.
 0
 

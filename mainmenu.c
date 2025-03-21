@@ -241,12 +241,15 @@ void statisticsMenu(int *back, Player players[], bpet battlePets[], int maxPets,
         case 1:
             clrscr();
             loadPlayers(players, &playerCount);
-            printTopFive(players, playerCount);
+            printTopPlayers(players, playerCount);
             clrscr();
             break;
         case 2:
             clrscr();
-            printf("Top 5 Battlepets:\n 1.\n 2.");
+            countBattlePets("competdium.txt", &maxPets);
+            loadBattlePets("competdium.txt", battlePets);
+            printTopBattlePets(battlePets, maxPets);
+            clrscr();
             break;
         case 3:
             clrscr();

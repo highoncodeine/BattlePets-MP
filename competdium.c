@@ -129,7 +129,7 @@ void addBattlePet(bpet battlePets[]){
 	} while(confirm == 0);
 	
 	
-	fprintf(file, "\n%s\n%s\n%s\n0\n\n", name, checkElement(element), desc);
+	fprintf(file, "%s\n%s\n%s\n0\n\n", name, checkElement(element), desc);
 	
 	clrscr();
 	printf("Name: %s\n", name);

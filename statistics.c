@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "functions.h"
 
-void printTopFive(Player players[], int playerCount){
+void printTopPlayers(Player players[], int playerCount){
 	
 	Player sortedPlayers[playerCount];
 	
@@ -50,6 +50,53 @@ void displayTopPlayers(Player sortedPlayers[]){
 		draws = sortedPlayers[i].draws;
 		
 		printf("[%d] %s (W: %d, L: %d, D: %d)\n", i, sortedPlayers[i].username, wins, losses, draws);
+	}
+	
+	printf("\nPress enter to continue...");
+	getchar();
+	getchar();
+}
+
+void printTopBattlePets(bpet battlePets[], int maxPets){
+	
+	bpet sortedPets[maxPets];
+	
+	for(int i = 0; i < maxPets; i++){
+		
+		sortedPets[i] = battlePets[i];
+	}
+	
+	for(int j = 0; j < maxPets - 1; j++){
+		
+		int min = j;
+		
+		for(int k = 0; k < maxPets; k++){
+			
+			if(sortedPets[min].matches > sortedPets[k].matches){
+				
+				min = k;
+			}
+			
+		}
+		
+		if(j != min){
+			
+			bpet temp = sortedPets[j];
+			sortedPets[j] = sortedPets[min];
+			sortedPets[min] = temp;
+		}
+	}
+	
+	displayTopPets(sortedPets);
+}
+
+void displayTopPets(bpet sortedPets[]){
+	
+	printf("Top 5 BattlePets:\n");
+	
+	for(int i = 0; i < 5; i++){
+		
+		printf("[%d] %s (%d matches)\n", i, sortedPets[i].name, sortedPets[i].matches);
 	}
 	
 	printf("\nPress enter to continue...");

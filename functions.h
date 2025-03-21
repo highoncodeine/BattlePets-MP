@@ -79,7 +79,9 @@ void addBattlePet(bpet battlePets[]);
 void saveRoster (bpet battlePets[], int maxPets, bpet roster[]);
 
 // statistics.c func prototypes
-void printTopFive(Player players[], int playerCount);
+void printTopPlayers(Player players[], int playerCount);
 void displayTopPlayers(Player sortedPlayers[]);
+void printTopBattlePets(bpet battlePets[], int maxPets);
+void displayTopPets(bpet sortedPets[]);
 
 #endif
