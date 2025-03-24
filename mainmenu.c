@@ -68,14 +68,14 @@ void battleMenu(int *back, int playerCount, int maxPets, Player players[])
 
         // Player 1 selects their player and roster
         displaySelect();
-        selectPlayer(players, playerCount, &player1, 1);
+        selectPlayer(players, playerCount, &player1, 1, NULL);
         clrscr();
         printf("Player 1: %s, select your roster.\n", player1.username);
         selectRoster(&player1, battlePets, maxPets, roster1);
 
         // Player 2 selects their player and roster
         displaySelect();
-        selectPlayer(players, playerCount, &player2, 2);
+        selectPlayer(players, playerCount, &player2, 2, &player1);
         clrscr();
         printf("Player 2: %s, select your roster.\n", player2.username);
         selectRoster(&player2, battlePets, maxPets, roster2);
@@ -122,7 +122,7 @@ void displayBattlePets(bpet battlePets[], int maxPets)
     		
         	printf(" [%d]  Name: %s\n", i, battlePets[i].name);
         } else {
-        	
+        	 
         	printf("[%d]  Name: %s\n", i, battlePets[i].name);
 		}
     }

@@ -56,7 +56,7 @@ int getBattleResult(int element1, int element2);
 int validateUsername(char *username);
 void createNewPlayer();
 void loadPlayers(Player players[], int *playerCount);
-void selectPlayer(Player players[], int playerCount, Player *selectedPlayer, int playerNumber);
+void selectPlayer(Player players[], int playerCount, Player *selectedPlayer, int playerNumber, Player *alreadySelectedPlayer);
 int loadSavedRoster(char *username, bpet roster[], bpet battlePets[], int maxPets);
 void createRoster(bpet battlePets[], int maxPets, bpet roster[]);
 void selectRoster(Player *player, bpet battlePets[], int maxPets, bpet roster[]);

@@ -114,7 +114,7 @@ void loadPlayers(Player players[], int *playerCount) {
     }
 }
 
-void selectPlayer(Player players[], int playerCount, Player *selectedPlayer, int playerNumber) {
+void selectPlayer(Player players[], int playerCount, Player *selectedPlayer, int playerNumber, Player *alreadySelectedPlayer) {
     int valid = 0;
 
     while (!valid) {
@@ -125,6 +125,10 @@ void selectPlayer(Player players[], int playerCount, Player *selectedPlayer, int
         } else {
             printf("Player %d, select a player:\n", playerNumber);
             for (int i = 0; i < playerCount; i++) {
+                // Skip the player already selected by Player 1
+                if (alreadySelectedPlayer != NULL && strcmp(players[i].username, alreadySelectedPlayer->username) == 0) {
+                }
+                else 
                 printf("%d. %s\n", i + 1, players[i].username);
             }
 
@@ -132,7 +136,9 @@ void selectPlayer(Player players[], int playerCount, Player *selectedPlayer, int
             printf(">> ");
             scanf("%d", &choice);
 
-            if (choice < 1 || choice > playerCount) {
+            // Check if the choice is valid and not the already selected player
+            if (choice < 1 || choice > playerCount || 
+                (alreadySelectedPlayer != NULL && strcmp(players[choice - 1].username, alreadySelectedPlayer->username) == 0)) {
                 clrscr();
                 printf("Invalid choice. Please try again.\n");
             } else {
@@ -143,13 +149,11 @@ void selectPlayer(Player players[], int playerCount, Player *selectedPlayer, int
                 printf("Losses: %d\n", selectedPlayer->losses);
                 printf("Draws: %d\n", selectedPlayer->draws);
 
-                
                 // Wait for user input before clearing the screen
                 printf("Press Enter to continue...");
                 getchar(); // Consume the newline character left by scanf
                 getchar(); // Wait for the user to press Enter
                 valid = 1;
-                
             }
         }
     }
