@@ -46,7 +46,7 @@ void displayCompetdium();
 void displayBattlePets(bpet battlePets[], int maxPets, const char *fileName);
 void accessBattlePets(bpet battlePets[], int index);
 void viewBattlePetsMenu(bpet battlePets[], int *nInput, int maxPets, const char *fileName);
-void competdiumMenu(int *back, bpet battlePets[], int maxPets, char *fileName);
+void competdiumMenu(int *back, bpet battlePets[], int maxPets, char *fileName, Player players[], int playerCount);
 void displayStatistics();
 void statisticsMenu(int *back, Player players[], bpet battlePets[], int maxPets, int playerCount, const char *fileName);
 void startMenu(bpet battlePets[], Player players[], int maxPets, int playerCount, char *filename);
@@ -62,10 +62,11 @@ int loadSavedRoster(char *username, bpet roster[], bpet battlePets[], int maxPet
 void createRoster(bpet battlePets[], int maxPets, bpet roster[]);
 void selectRoster(Player *player, bpet battlePets[], int maxPets, bpet roster[]);
 void Fight(Player *player1, Player *player2, bpet roster1[], bpet roster2[], int results[3][3]);
-void displayMatchResultsGrid(int results[3][3], int *player1Wins, int *player2Wins);
-void showMatchResults(Player *player1, Player *player2, int results[3][3]);
-void determineWinner(Player *player1, Player *player2, int results[3][3], int player1Wins, int player2Wins);
+void displayMatchResultsGrid(Player *player1, Player *player2, int results[3][3], int *player1Wins, int *player2Wins);
+void showMatchResults(Player *player1, Player *player2, bpet roster1[], bpet roster2[], int results[3][3]);
+void determineWinner(Player *player1, Player *player2, int results[3][3], int player1Wins, int player2Wins, char *winType, char *winner);
 void updatePlayerStats(Player *player1, Player *player2, int results[3][3]);
+void saveMatchResults(Player *player1, Player *player2, bpet roster1[], bpet roster2[], int results[3][3], const char *winType, const char *winner);
 
 // competdium.c func prototypes
 char *checkElement(int element);
@@ -79,7 +80,7 @@ void incrementBattlePetMatches(const char *battlePetName, const char *fileName);
 void editBattlePets(bpet battlePets[], int maxPets, const char *fileName);
 void deleteBattlePet(char *battlePetName, const char *fileName);
 void addBattlePet(bpet battlePets[], const char *fileName);
-void saveRoster(bpet battlePets[], int maxPets, bpet roster[]);
+void saveRoster(Player players[], int playerCount, bpet battlePets[], int maxPets, bpet roster[]);
 void importBattlePets(bpet battlePets[], int maxPets, char *fileName);
 
 // statistics.c func prototypes

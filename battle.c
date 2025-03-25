@@ -367,8 +367,9 @@ void Fight(Player *player1, Player *player2, bpet roster1[], bpet roster2[], int
 }
 
 
-void displayMatchResultsGrid(int results[3][3], int *player1Wins, int *player2Wins) {
-    printf("\nMatch Results\n");
+void displayMatchResultsGrid(Player *player1, Player *player2, int results[3][3], int *player1Wins, int *player2Wins) {
+    printf("%s (Player 1) vs %s (Player 2)\n\n", player1->username, player2->username);
+    printf("Match Results\n");
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             if (results[i][j] == 1) (*player1Wins)++;
@@ -390,7 +391,7 @@ void displayMatchResultsGrid(int results[3][3], int *player1Wins, int *player2Wi
 }
 
 
-void determineWinner(Player *player1, Player *player2, int results[3][3], int player1Wins, int player2Wins) {
+void determineWinner(Player *player1, Player *player2, int results[3][3], int player1Wins, int player2Wins, char *winType, char *winner) {
     int luckyWin = 0;
 
     
@@ -410,63 +411,82 @@ void determineWinner(Player *player1, Player *player2, int results[3][3], int pl
     
     if (luckyWin == 1) {
         printf("\nWinner: %s (Player 1) [Lucky Win]\n", player1->username);
+        strcpy(winType, "Lucky Win");
+        strcpy(winner, player1->username);
     } else if (luckyWin == 2) {
         printf("\nWinner: %s (Player 2) [Lucky Win]\n", player2->username);
+        strcpy(winType, "Lucky Win");
+        strcpy(winner, player2->username);
     } else if (player1Wins > player2Wins) {
         printf("\nWinner: %s (Player 1) [Majority Win]\n", player1->username);
+        strcpy(winType, "Majority Win");
+        strcpy(winner, player1->username);
     } else if (player2Wins > player1Wins) {
         printf("\nWinner: %s (Player 2) [Majority Win]\n", player2->username);
+        strcpy(winType, "Majority Win");
+        strcpy(winner, player2->username);
     } else {
         printf("\nThe match is a draw!\n");
+        strcpy(winType, "Draw");
+        strcpy(winner, "None");
     }
 }
 
 
-void showMatchResults(Player *player1, Player *player2, int results[3][3]) {
+void showMatchResults(Player *player1, Player *player2, bpet roster1[], bpet roster2[], int results[3][3]) {
     clrscr();
     int player1Wins = 0, player2Wins = 0;
-    
-    
-    displayMatchResultsGrid(results, &player1Wins, &player2Wins);
+    char winType[20];
+    char winner[50];
 
     
-    determineWinner(player1, player2, results, player1Wins, player2Wins);
+    displayMatchResultsGrid(player1, player2, results, &player1Wins, &player2Wins);
 
+    
+    determineWinner(player1, player2, results, player1Wins, player2Wins, winType, winner);
+
+    
     updatePlayerStats(player1, player2, results);
+
+    
+    saveMatchResults(player1, player2, roster1, roster2, results, winType, winner);
 
     printf("Press Enter to play again... ");
     getchar();
     clrscr();
 }
 
+
 void updatePlayerStats(Player *player1, Player *player2, int results[3][3]) {
     Player players[MAX_PLAYERS];
     int playerCount = 0;
 
-  
+    
     loadPlayers(players, &playerCount);
 
     
     int player1Wins = 0, player2Wins = 0;
-    displayMatchResultsGrid(results, &player1Wins, &player2Wins);
+    displayMatchResultsGrid(player1, player2, results, &player1Wins, &player2Wins);
 
     
-    determineWinner(player1, player2, results, player1Wins, player2Wins);
+    char winType[20];
+    char winner[50];
+    determineWinner(player1, player2, results, player1Wins, player2Wins, winType, winner);
 
-
+    
     for (int i = 0; i < playerCount; i++) {
         if (strcmp(players[i].username, player1->username) == 0) {
-            if (player1Wins > player2Wins) {
+            if (strcmp(winner, player1->username) == 0) {
                 players[i].wins++;
-            } else if (player2Wins > player1Wins) {
+            } else if (strcmp(winner, player2->username) == 0) {
                 players[i].losses++;
             } else {
                 players[i].draws++;
             }
         } else if (strcmp(players[i].username, player2->username) == 0) {
-            if (player2Wins > player1Wins) {
+            if (strcmp(winner, player2->username) == 0) {
                 players[i].wins++;
-            } else if (player1Wins > player2Wins) {
+            } else if (strcmp(winner, player1->username) == 0) {
                 players[i].losses++;
             } else {
                 players[i].draws++;
@@ -489,6 +509,61 @@ void updatePlayerStats(Player *player1, Player *player2, int results[3][3]) {
     printf("Player stats updated successfully.\n");
 }
 
+#include <stdio.h>
+#include <stdlib.h>
+
+void saveMatchResults(Player *player1, Player *player2, bpet roster1[], bpet roster2[], int results[3][3], const char *winType, const char *winner) {
+    int matchNumber = 1;
+    char filename[100];
+    FILE *file;
+
+    
+    do {
+        snprintf(filename, sizeof(filename), "results/match_%d.txt", matchNumber);
+        file = fopen(filename, "r");
+        if (file) {
+            fclose(file);
+            matchNumber++;
+        }
+    } while (file != NULL);
+
+    
+    file = fopen(filename, "w");
+    if (file == NULL) {
+        printf("Error: Could not save match results.\n");
+        
+    } 
+    else {
+        
+        fprintf(file, "Player1: %s\n", player1->username);
+        fprintf(file, "Player2: %s\n\n", player2->username);
+    
+        
+        fprintf(file, "P1 Roster vs. P2 Roster\n");
+        for (int i = 0; i < 9; i++) {
+            fprintf(file, "%s vs. %s\n", roster1[i].name, roster2[i].name);
+        }
+        fprintf(file, "\n");
+    
+        
+        fprintf(file, "Match Results\n");
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                fprintf(file, "%c ", results[i][j] == 1 ? '1' : (results[i][j] == 2 ? '2' : 'D'));
+            }
+            fprintf(file, "\n");
+        }
+        fprintf(file, "\n");
+    
+        
+        fprintf(file, "Winner: %s\n", winner);
+        fprintf(file, "Type of Win: %s\n", winType);
+    
+        fclose(file);
+    
+        printf("Match results saved successfully to %s.\n", filename);
+    }
+}
 
 
 

@@ -1,0 +1,21 @@
+Player1: Justin
+Player2: Hadjj
+
+P1 Roster vs. P2 Roster
+Rustcoon vs. Solarrafe
+Steelephant vs. Firepupp
+Crocodice vs. Hydrake
+Hailhound vs. Meowguro
+Zaprat vs. Grawl
+Zephyram vs. Barkbear
+Airsting vs. Terrashark
+Roarland vs. Roarland
+Terrashark vs. Airsting
+
+Match Results
+1 1 1 
+1 2 1 
+2 D 1 
+
+Winner: Justin
+Type of Win: Lucky Win

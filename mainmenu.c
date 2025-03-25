@@ -65,8 +65,7 @@ void displaySelect(){
 }
 
 
-void battleMenu(int *back, int playerCount, int maxPets, Player players[], const char *fileName)
-{
+void battleMenu(int *back, int playerCount, int maxPets, Player players[], const char *fileName) {
     int nInput;
     Player player1, player2;
     bpet battlePets[MAX_PETS];
@@ -79,8 +78,7 @@ void battleMenu(int *back, int playerCount, int maxPets, Player players[], const
     displayBattleMenu();
     scanf("%d", &nInput);
 
-    switch (nInput)
-    {
+    switch (nInput) {
     case 1:
         clrscr();
         createNewPlayer();
@@ -105,8 +103,12 @@ void battleMenu(int *back, int playerCount, int maxPets, Player players[], const
 
         clrscr();
         printf("Both players have selected their players and rosters. Ready to battle!\n");
+
+        // Simulate the battle
         Fight(&player1, &player2, roster1, roster2, results);
-        showMatchResults(&player1, &player2, results);
+
+        // Show match results and save them
+        showMatchResults(&player1, &player2, roster1, roster2, results);
         break;
     case 3:
         clrscr();
@@ -200,8 +202,7 @@ void displayDeleteMenu(bpet battlePets[], int maxPets, const char *fileName){
     deleteBattlePet(battlePets[bpetIndex].name, fileName);
 }
 
-void competdiumMenu(int *back, bpet battlePets[], int maxPets, char *fileName)
-{
+void competdiumMenu(int *back, bpet battlePets[], int maxPets, char *fileName, Player players[], int playerCount) {
     int nInput = 0;
 
     clrscr();
@@ -221,7 +222,7 @@ void competdiumMenu(int *back, bpet battlePets[], int maxPets, char *fileName)
             break;
         case 3:
             clrscr();
-			editBattlePets(battlePets, maxPets, fileName);
+            editBattlePets(battlePets, maxPets, fileName);
             break;
         case 4:
             clrscr();
@@ -230,12 +231,12 @@ void competdiumMenu(int *back, bpet battlePets[], int maxPets, char *fileName)
         case 5:
             clrscr();
             bpet roster[9];
-            saveRoster(battlePets, maxPets, roster);
+            saveRoster(players, playerCount, battlePets, maxPets, roster); 
             break;
         case 6:
-        	clrscr();
-        	importBattlePets(battlePets, maxPets, fileName);
-        	break;
+            clrscr();
+            importBattlePets(battlePets, maxPets, fileName);
+            break;
         case 7:
             clrscr();
             *back = START_MENU;
@@ -309,7 +310,7 @@ void startMenu(bpet battlePets[], Player players[], int maxPets, int playerCount
             case 2:
                 clrscr();
                 do {
-                    competdiumMenu(&input, battlePets, maxPets, fileName);
+                    competdiumMenu(&input, battlePets, maxPets, fileName, players, playerCount);
                 } while (input != START_MENU);
                 break;
             case 3:

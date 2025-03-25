@@ -487,33 +487,57 @@ void editBattlePets(bpet battlePets[], int maxPets, const char *fileName){
 	} while(mainLoop);
 }
 
-void saveRoster(bpet battlePets[], int maxPets, bpet roster[]) {
-    char playerName[50];
+
+
+void saveRoster(Player players[], int playerCount, bpet battlePets[], int maxPets, bpet roster[]) {
+    int selectedPlayerIndex = -1;
     char filePath[100];
     FILE *file;
 
     clrscr();
-    printf("Enter your player name: ");
-    scanf("%49s", playerName);
-    getchar();
+    printf("Select a player to save a roster for:\n");
 
-    snprintf(filePath, sizeof(filePath), "saved_roster/%s.txt", playerName);
-
-	createRoster(battlePets, maxPets, roster);
-
-    file = fopen(filePath, "w");
-    for (int i = 0; i < 9; i++) {
-        fprintf(file, "%s\n", roster[i].name);
+    
+    for (int i = 0; i < playerCount; i++) {
+        printf("[%d] %s\n", i + 1, players[i].username);
     }
-    fclose(file);
 
-    // Display the success message and wait for user acknowledgment
-    printf("Roster saved successfully to %s.\n", filePath);
-    printf("Press Enter to continue...");
-    getchar(); // Consume the newline character left by scanf
-    getchar(); // Wait for the user to press Enter
+    printf("\n>> ");
+    scanf("%d", &selectedPlayerIndex);
+    getchar(); 
 
-    clrscr(); // Clear the screen after the user presses Enter
+    
+    if (selectedPlayerIndex < 1 || selectedPlayerIndex > playerCount) {
+        printf("Invalid selection. Press Enter to continue...");
+        getchar();
+    } else {
+        selectedPlayerIndex--;
+
+       
+        snprintf(filePath, sizeof(filePath), "saved_roster/%s.txt", players[selectedPlayerIndex].username);
+
+        
+        createRoster(battlePets, maxPets, roster);
+
+        
+        file = fopen(filePath, "w");
+        if (!file) {
+            printf("Error: Could not save roster.\n");
+        } else {
+            for (int i = 0; i < 9; i++) {
+                fprintf(file, "%s\n", roster[i].name);
+            }
+            fclose(file);
+
+            
+            printf("Roster saved successfully for %s to %s.\n", players[selectedPlayerIndex].username, filePath);
+            printf("Press Enter to continue...");
+            getchar(); 
+            getchar(); 
+        }
+    }
+
+    clrscr(); 
 }
 
 void importBattlePets(bpet battlePets[], int maxPets, char *fileName){
