@@ -293,6 +293,55 @@ void editBattlePetDesc(const char *newDesc, const char *battlePetName){
     }
 }
 
+void incrementBattlePetMatches(const char *battlePetName){
+	
+	FILE *file = fopen("competdium.txt", "r");
+	FILE *tempFile = fopen(TEMP_FILE, "w");
+	
+	char line[256];
+    int foundBattlePet = 0;
+    int lineCounter = 0; // To track the line offset for matches
+
+    while (fgets(line, sizeof(line), file)) {
+        if (foundBattlePet) {
+            lineCounter++;
+            if (lineCounter == 3) {
+                // This is the matches line we need to update
+                int matches = atoi(line);  // Convert the line to an integer
+                matches++;                 // Increment the matches
+                fprintf(tempFile, "%d\n", matches);  // Write the updated matches to the temp file
+                foundBattlePet = 0;        // Reset the flag
+                lineCounter = 0;
+            } else {
+                fprintf(tempFile, "%s", line); // Write the current line to the temp file
+            }
+        } else {
+            char *lineWithoutNewline = strtok(line, "\n"); // Remove newline from the read line
+            fprintf(tempFile, "%s\n", lineWithoutNewline ? lineWithoutNewline : "");
+            
+            // Check if this line matches the battle pet name
+            if (strcmp(line, battlePetName) == 0) {
+                foundBattlePet = 1;   // Set the flag to track the next 4 lines
+            }
+        }
+    }
+
+    fclose(file);
+    fclose(tempFile);
+
+    // Replace the original file with the updated file
+    if (remove("competdium.txt") != 0) {
+        perror("Error removing original file");
+        return;
+    }
+
+    if (rename(TEMP_FILE, "competdium.txt") != 0) {
+        perror("Error renaming temporary file");
+        return;
+    }
+}
+
+
 void deleteBattlePet(char *battlePetName){
 	
 	FILE *file = fopen("competdium.txt", "r");
@@ -461,5 +510,6 @@ void saveRoster(bpet battlePets[], int maxPets, bpet roster[]) {
 
     clrscr(); // Clear the screen after the user presses Enter
 }
+
 
 

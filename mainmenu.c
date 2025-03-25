@@ -9,6 +9,29 @@ void clrscr()
     system("@cls || clear");
 }
 
+void displayLanding(){
+	
+	printf("\n");
+	printf("\n");
+	printf("\n");
+	printf("\n");
+	printf("\n");
+	printf("\n");
+	printf("\n");
+	printf("\n");
+	printf(" __________     _____    ___________ ___________ .____      ___________ __________  ___________ ___________   _________ \n");
+    printf(" \\______   \\   /  _  \\   \\__    ___/ \\__    ___/ |    |     \\_   _____/ \\______   \\ \\_   _____/ \\__    ___/  /   _____/ \n");
+    printf("  |    |  _/  /  /_\\  \\    |    |      |    |    |    |      |    __)_   |     ___/  |    __)_    |    |     \\_____  \\  \n");
+    printf("  |    |   \\ /    |    \\   |    |      |    |    |    |___   |        \\  |    |      |        \\   |    |     /        \\ \n");
+    printf("  |______  / \\____|__  /   |____|      |____|    |_______ \\ /_______  /  |____|     /_______  /   |____|    /_______  / \n");
+    printf("         \\/          \\/                                  \\/         \\/                      \\/                      \\/ \n");
+    printf("\n");
+    printf("                                                   BY HADJJ AND JUSTIN                                                                            \n");
+    printf("                                                 Press Enter to Continue");
+	getchar();
+	clrscr();
+	
+}
 void displayStartMenu()
 {
     printf("=========================\n");

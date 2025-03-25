@@ -13,29 +13,43 @@ void printTopPlayers(Player players[], int playerCount){
 		
 	}
 	
-	for(int j = 0; j < playerCount - 1; j++){
-		
-		int min = j;
-		
-		for(int k = 0; k < playerCount; k++){
-			
-			if(sortedPlayers[min].wins > sortedPlayers[k].wins){
-				
-				min = k;
-			}
-			
-		}
-		
-		if(j != min){
-			
-			Player temp = sortedPlayers[j];
-			sortedPlayers[j] = sortedPlayers[min];
-			sortedPlayers[min] = temp;
-		}
-	}
-	
-	displayTopPlayers(sortedPlayers);
-	
+	 for (int j = 0; j < playerCount - 1; j++){
+	 	
+        int best = j;
+        
+        for (int k = j + 1; k < playerCount; k++) {
+            
+            if (sortedPlayers[k].wins > sortedPlayers[best].wins) {
+                best = k;
+            } 
+            
+            else if (sortedPlayers[k].wins == sortedPlayers[best].wins) {
+                if (sortedPlayers[k].losses < sortedPlayers[best].losses) {
+                    best = k;
+                } 
+                
+                else if (sortedPlayers[k].losses == sortedPlayers[best].losses) {
+                    if (sortedPlayers[k].draws < sortedPlayers[best].draws) {
+                        best = k;
+                    } 
+                    
+                    else if (sortedPlayers[k].draws == sortedPlayers[best].draws) {
+                        if (sortedPlayers[k].username < sortedPlayers[best].username) {
+                            best = k;
+                        }
+                    }
+                }
+            }
+        }
+        
+        if (j != best) {
+            Player temp = sortedPlayers[j];
+            sortedPlayers[j] = sortedPlayers[best];
+            sortedPlayers[best] = temp;
+        }
+    }
+
+    displayTopPlayers(sortedPlayers);
 }
 
 void displayTopPlayers(Player sortedPlayers[]){
@@ -49,7 +63,7 @@ void displayTopPlayers(Player sortedPlayers[]){
 		losses = sortedPlayers[i].losses;
 		draws = sortedPlayers[i].draws;
 		
-		printf("[%d] %s (W: %d, L: %d, D: %d)\n", i, sortedPlayers[i].username, wins, losses, draws);
+		printf("[%d] %s (W: %d, L: %d, D: %d)\n", i + 1, sortedPlayers[i].username, wins, losses, draws);
 	}
 	
 	printf("\nPress enter to continue...");
@@ -70,9 +84,9 @@ void printTopBattlePets(bpet battlePets[], int maxPets){
 		
 		int min = j;
 		
-		for(int k = 0; k < maxPets; k++){
+		for(int k = j + 1; k < maxPets; k++){
 			
-			if(sortedPets[min].matches > sortedPets[k].matches){
+			if(sortedPets[min].matches < sortedPets[k].matches){
 				
 				min = k;
 			}
@@ -96,7 +110,7 @@ void displayTopPets(bpet sortedPets[]){
 	
 	for(int i = 0; i < 5; i++){
 		
-		printf("[%d] %s (%d matches)\n", i, sortedPets[i].name, sortedPets[i].matches);
+		printf("[%d] %s (%d matches)\n", i + 1, sortedPets[i].name, sortedPets[i].matches);
 	}
 	
 	printf("\nPress enter to continue...");

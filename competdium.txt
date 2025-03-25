@@ -1,27 +1,27 @@
 Solarrafe
 Fire
 A fiery and majestic giraffe that harnesses the power of the sun.
-4
+7
 
 Firepupp
 Fire
 A loyal, flame-breathing dog that races through the night with fiery speed.
-0
+2
 
 Hydrake
 Water
 A sleek, serpentine creature that can summon powerful waves and whip through currents with ease.
-0
+1
 
 Meowguro
 Water
 A playful, aquatic catfish with feline-like agility in the water.
-0
+1
 
 Grawl
 Grass
 A wise and stealthy owl, covered in leaves and vines, blending into nature.
-0
+1
 
 Barkbear
 Grass
@@ -75,11 +75,11 @@ A clever raccoon with metallic fur that can withstand rust and corrosion, scaven
 
 DerVoltage
 Electric
-She eats all her opponents and converts their enegery to electric bolts that kills all enemies.
+She eats all her opponents and converts their energy to electric bolts that kills all enemies.
 61
 
 Geodude
 Earth
 Disabled rock person.
-0
+3
 

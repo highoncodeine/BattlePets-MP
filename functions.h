@@ -38,6 +38,7 @@ typedef struct {
 
 // main menu.c func prototypes
 void clrscr();
+void displayLanding();
 void displayStartMenu();
 void displayBattleMenu();
 void battleMenu(int *back, int playerCount, int maxPets, Player players[]);
@@ -73,6 +74,7 @@ void loadBattlePets(const char *filename, bpet battlePets[]);
 void editBattlePetName(const char *newName, const char *battlePetName);
 void editBattlePetElement(int newElementCode, const char *battlePetName);
 void editBattlePetDesc(const char *newDesc, const char *battlePetName);
+void incrementBattlePetMatches(const char *battlePetName);
 void editBattlePets(bpet battlePets[], int maxPets);
 void deleteBattlePet(char *battlePetName);
 void addBattlePet(bpet battlePets[]);
