@@ -1,0 +1,61 @@
+Venusaur
+Grass
+a
+0
+
+Charizard
+Fire
+Spits fire that is hot enough to melt boulders. Known to cause forest fires unintentionally.
+0
+
+Blastoise
+Water
+It crushes its foe under its heavy body to cause fainting. In a pinch, it will withdraw inside its shell.
+0
+
+Pikachu
+Electric
+When several of these Pokémon gather, their electricity can build and cause lightning storms.
+0
+
+Butterfree
+Air
+It loves the honey of flowers and can locate flower patches that have even tiny amounts of pollen.
+0
+
+Alakazam
+Earth
+Its brain can outperform a supercomputer. Its IQ is said to be around 5,000.
+0
+
+Machamp
+Fire
+Using its heavy muscles, it throws powerful punches that can send its victim clear over the horizon.
+0
+
+Gengar
+Metal
+It hides in shadows and silently stalks its prey. Its red eyes gleam with a sinister glow.
+0
+
+Snorlax
+Earth
+It is not satisfied unless it eats over 880 pounds of food every day. When it is done eating, it goes promptly to sleep.
+0
+
+Dragonite
+Air
+It is said to make its home somewhere in the sea. It flies over raging seas as if they were nothing.
+0
+
+
+Magneton
+Metal
+A iron nail that is shocking and metallic.
+0
+
+Geodude
+Earth
+Disabled rock person.
+0
+

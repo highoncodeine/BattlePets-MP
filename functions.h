@@ -41,15 +41,15 @@ void clrscr();
 void displayLanding();
 void displayStartMenu();
 void displayBattleMenu();
-void battleMenu(int *back, int playerCount, int maxPets, Player players[]);
+void battleMenu(int *back, int playerCount, int maxPets, Player players[], const char *fileName);
 void displayCompetdium();
-void displayBattlePets(bpet battlePets[], int maxPets);
+void displayBattlePets(bpet battlePets[], int maxPets, const char *fileName);
 void accessBattlePets(bpet battlePets[], int index);
-void viewBattlePetsMenu(bpet battlePets[], int *nInput, int maxPets);
-void competdiumMenu(int *back, bpet battlePets[], int maxPets);
+void viewBattlePetsMenu(bpet battlePets[], int *nInput, int maxPets, const char *fileName);
+void competdiumMenu(int *back, bpet battlePets[], int maxPets, char *fileName);
 void displayStatistics();
-void statisticsMenu(int *back, Player players[], bpet battlePets[], int maxPets, int playerCount);
-void startMenu(bpet battlePets[], Player players[], int maxPets, int playerCount);
+void statisticsMenu(int *back, Player players[], bpet battlePets[], int maxPets, int playerCount, const char *fileName);
+void startMenu(bpet battlePets[], Player players[], int maxPets, int playerCount, char *filename);
 void displaySelect();
 
 // battle.c func prototypes
@@ -66,19 +66,21 @@ void displayMatchResultsGrid(int results[3][3], int *player1Wins, int *player2Wi
 void showMatchResults(Player *player1, Player *player2, int results[3][3]);
 void determineWinner(Player *player1, Player *player2, int results[3][3], int player1Wins, int player2Wins);
 void updatePlayerStats(Player *player1, Player *player2, int results[3][3]);
+
 // competdium.c func prototypes
 char *checkElement(int element);
 int checkElementIndex(char* element);
 void countBattlePets(const char *filename, int* maxPets);
 void loadBattlePets(const char *filename, bpet battlePets[]);
-void editBattlePetName(const char *newName, const char *battlePetName);
-void editBattlePetElement(int newElementCode, const char *battlePetName);
-void editBattlePetDesc(const char *newDesc, const char *battlePetName);
-void incrementBattlePetMatches(const char *battlePetName);
-void editBattlePets(bpet battlePets[], int maxPets);
-void deleteBattlePet(char *battlePetName);
-void addBattlePet(bpet battlePets[]);
-void saveRoster (bpet battlePets[], int maxPets, bpet roster[]);
+void editBattlePetName(const char *newName, const char *battlePetName, const char *fileName);
+void editBattlePetElement(int newElementCode, const char *battlePetName, const char *fileName);
+void editBattlePetDesc(const char *newDesc, const char *battlePetName, const char *fileName);
+void incrementBattlePetMatches(const char *battlePetName, const char *fileName);
+void editBattlePets(bpet battlePets[], int maxPets, const char *fileName);
+void deleteBattlePet(char *battlePetName, const char *fileName);
+void addBattlePet(bpet battlePets[], const char *fileName);
+void saveRoster(bpet battlePets[], int maxPets, bpet roster[]);
+void importBattlePets(bpet battlePets[], int maxPets, char *fileName);
 
 // statistics.c func prototypes
 void printTopPlayers(Player players[], int playerCount);

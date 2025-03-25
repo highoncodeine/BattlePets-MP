@@ -9,18 +9,20 @@ int main()
 {	
 	int maxPets = 0;
 	int playerCount = 0;
+	char fileName[50] = "competdium.txt";
+	
 	Player players[MAX_PLAYERS];
 	bpet battlePets[20];
 
-	countBattlePets("competdium.txt", &maxPets);
-	loadBattlePets("competdium.txt", battlePets);
+	countBattlePets(fileName, &maxPets);
+	loadBattlePets(fileName, battlePets);
 	
 	loadPlayers(players, &playerCount);
 	clrscr();
 
 	displayLanding();
 	
-    startMenu(battlePets, players, maxPets, playerCount);
+    startMenu(battlePets, players, maxPets, playerCount, fileName);
 	
     return 0;
 
