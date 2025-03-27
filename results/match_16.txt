@@ -1,0 +1,21 @@
+Player1: Justin
+Player2: Hadjj
+
+P1 Roster vs. P2 Roster
+DerVoltage vs. Solarrafe
+Rustcoon vs. Firepupp
+Solarrafe vs. Hydrake
+Firepupp vs. Meowguro
+Grawl vs. Grawl
+Barkbear vs. Barkbear
+Zephyram vs. Terrashark
+Roarland vs. Roarland
+Terrashark vs. Airsting
+
+Match Results
+D 1 2 
+2 D D 
+2 D 1 
+
+Winner: Hadjj
+Type of Win: Majority Win

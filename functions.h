@@ -61,11 +61,12 @@ void selectPlayer(Player players[], int playerCount, Player *selectedPlayer, int
 int loadSavedRoster(char *username, bpet roster[], bpet battlePets[], int maxPets);
 void createRoster(bpet battlePets[], int maxPets, bpet roster[]);
 void selectRoster(Player *player, bpet battlePets[], int maxPets, bpet roster[]);
-void Fight(Player *player1, Player *player2, bpet roster1[], bpet roster2[], int results[3][3]);
+void simulateFight(Player *player1, Player *player2, bpet roster1[], bpet roster2[], int results[3][3]);
 void displayMatchResultsGrid(Player *player1, Player *player2, int results[3][3], int *player1Wins, int *player2Wins);
-void showMatchResults(Player *player1, Player *player2, bpet roster1[], bpet roster2[], int results[3][3]);
+void showMatchResults(Player *player1, Player *player2, bpet roster1[], bpet roster2[], int results[3][3], const char *fileName);
 void determineWinner(Player *player1, Player *player2, int results[3][3], int player1Wins, int player2Wins, char *winType, char *winner);
 void updatePlayerStats(Player *player1, Player *player2, int results[3][3]);
+void updateBattlePetStats(bpet roster1[], bpet roster2[], const char *fileName);
 void saveMatchResults(Player *player1, Player *player2, bpet roster1[], bpet roster2[], int results[3][3], const char *winType, const char *winner);
 
 // competdium.c func prototypes
@@ -76,10 +77,13 @@ void loadBattlePets(const char *filename, bpet battlePets[]);
 void editBattlePetName(const char *newName, const char *battlePetName, const char *fileName);
 void editBattlePetElement(int newElementCode, const char *battlePetName, const char *fileName);
 void editBattlePetDesc(const char *newDesc, const char *battlePetName, const char *fileName);
-void incrementBattlePetMatches(const char *battlePetName, const char *fileName);
+void incrementBattlePetMatches(char *battlePetName, const char *fileName);
 void editBattlePets(bpet battlePets[], int maxPets, const char *fileName);
 void deleteBattlePet(char *battlePetName, const char *fileName);
 void addBattlePet(bpet battlePets[], const char *fileName);
+char *getPassword(const char* playerName);
+void addNewPassword(const char *playerName, const char *newPassword);
+void inputPassword(const char* playerName, int *playerAccess);
 void saveRoster(Player players[], int playerCount, bpet battlePets[], int maxPets, bpet roster[]);
 void importBattlePets(bpet battlePets[], int maxPets, char *fileName);
 

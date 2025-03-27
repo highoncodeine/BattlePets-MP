@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include "functions.h"
 
-
-
 /**
  * Checks if a username is valid according to the specifications
  * @param username The username to validate
@@ -49,6 +47,9 @@ int validateUsername(char *username) {
 void createNewPlayer()
 {
     Player player;
+    printf("=========================\n");
+    printf("     CREATE NEW PLAYER       \n");
+    printf("=========================\n\n");
     printf("New Player Username: ");
     scanf("%s", player.username);
     
@@ -68,7 +69,14 @@ void createNewPlayer()
         fclose(file);
 
         clrscr();
-        printf("Player saved successfully!\n");
+        printf("=========================\n");
+    	printf("     CREATE NEW PLAYER       \n");
+    	printf("=========================\n\n");
+    	printf("New Player: %s\n", player.username);
+        printf("\n[Player saved successfully]\n\n");
+        printf("Press Enter to Continue...");
+        getchar();
+        getchar();
     }
     else
     {
@@ -118,7 +126,7 @@ void selectPlayer(Player players[], int playerCount, Player *selectedPlayer, int
     int valid = 0;
 
     while (!valid) {
-        clrscr();
+        
         if (playerCount == 0) {
             printf("No players available.\n");
             valid = 1; // Exit the loop
@@ -129,7 +137,7 @@ void selectPlayer(Player players[], int playerCount, Player *selectedPlayer, int
                 if (alreadySelectedPlayer != NULL && strcmp(players[i].username, alreadySelectedPlayer->username) == 0) {
                 }
                 else 
-                printf("%d. %s\n", i + 1, players[i].username);
+                printf("[%d] %s\n", i + 1, players[i].username);
             }
 
             int choice;
@@ -204,7 +212,10 @@ int loadSavedRoster(char *username, bpet roster[], bpet battlePets[], int maxPet
     }
 
     if (error == 0) {
-        printf("Loaded saved roster for %s successfully.\n", username);
+    	
+    	clrscr();
+    	
+        printf("[Loaded saved roster for %s successfully]\n\n", username);
 
         // Display the final match roster
         printf("\nFinal Match Roster:\n");
@@ -293,26 +304,26 @@ void selectRoster(Player *player, bpet battlePets[], int maxPets, bpet roster[])
 
         if (choice == 1) {
             if (loadSavedRoster(player->username, roster, battlePets, maxPets)) {
-                printf("Press Enter to continue...");
+                printf("\nPress Enter to continue...");
                 getchar(); // Consume the newline character left by scanf
                 getchar(); // Wait for the user to press Enter
                 clrscr(); // Clear the screen after the user presses Enter
                 valid = 1; // Exit the loop if loading was successful
             } else {
                 printf("Returning to roster selection...\n");
-                printf("Press Enter to continue...");
+                printf("\nPress Enter to continue...");
                 getchar(); // Consume the newline character left by scanf
                 getchar(); // Wait for the user to press Enter
             }
         } else if (choice == 2) {
             createRoster(battlePets, maxPets, roster);
-            printf("Press Enter to continue...");
+            printf("\nPress Enter to continue...");
             getchar();
             getchar(); 
             clrscr(); 
             valid = 1; // Exit the loop after creating the roster
         } else {
-            printf("Invalid choice. Please try again.\n");
+            printf("\nInvalid choice. Please try again.\n");
             printf("Press Enter to continue...");
             getchar(); 
             getchar(); 
@@ -336,7 +347,7 @@ int getBattleResult(int element1, int element2) {
     return affinity[element1][element2]; // return 1 if element 1 wins, -1 if element 2 wins, 0 if it is a draw.
 }
 
-void Fight(Player *player1, Player *player2, bpet roster1[], bpet roster2[], int results[3][3]){
+void simulateFight(Player *player1, Player *player2, bpet roster1[], bpet roster2[], int results[3][3]){
     clrscr();
     printf("%s (Player 1) vs %s (Player 2)\n\n", player1->username, player2->username);
     printf("BattlePets, Fight!\n");
@@ -433,22 +444,21 @@ void determineWinner(Player *player1, Player *player2, int results[3][3], int pl
 }
 
 
-void showMatchResults(Player *player1, Player *player2, bpet roster1[], bpet roster2[], int results[3][3]) {
+void showMatchResults(Player *player1, Player *player2, bpet roster1[], bpet roster2[], int results[3][3], const char *fileName){
+	
     clrscr();
     int player1Wins = 0, player2Wins = 0;
     char winType[20];
     char winner[50];
-
     
     displayMatchResultsGrid(player1, player2, results, &player1Wins, &player2Wins);
 
-    
     determineWinner(player1, player2, results, player1Wins, player2Wins, winType, winner);
 
-    
     updatePlayerStats(player1, player2, results);
-
     
+    updateBattlePetStats(roster1, roster2, fileName);
+
     saveMatchResults(player1, player2, roster1, roster2, results, winType, winner);
 
     printf("Press Enter to play again... ");
@@ -506,17 +516,26 @@ void updatePlayerStats(Player *player1, Player *player2, int results[3][3]) {
     }
     fclose(file);
 
-    printf("Player stats updated successfully.\n");
 }
 
-#include <stdio.h>
-#include <stdlib.h>
+void updateBattlePetStats(bpet roster1[], bpet roster2[], const char *fileName){
+	
+	for(int i = 0; i < 9; i++){
+		
+		incrementBattlePetMatches(roster1[i].name, fileName);
+	}
+	
+	for(int j = 0; j < 9; j++){
+		
+		incrementBattlePetMatches(roster2[j].name, fileName);
+	}
+}
 
 void saveMatchResults(Player *player1, Player *player2, bpet roster1[], bpet roster2[], int results[3][3], const char *winType, const char *winner) {
-    int matchNumber = 1;
+    
+	int matchNumber = 1;
     char filename[100];
     FILE *file;
-
     
     do {
         snprintf(filename, sizeof(filename), "results/match_%d.txt", matchNumber);
@@ -561,7 +580,7 @@ void saveMatchResults(Player *player1, Player *player2, bpet roster1[], bpet ros
     
         fclose(file);
     
-        printf("Match results saved successfully to %s.\n", filename);
+        printf("[Match results saved successfully to %s]\n\n", filename);
     }
 }
 

@@ -1,52 +1,52 @@
 Solarrafe
 Fire
-A fiery and majestic giraffe that harnesses the power of the sun.
-7
+A fiery and majestic giraffe that harness the power of the sun.
+8
 
 Firepupp
 Fire
 A loyal, flame-breathing dog that races through the night with fiery speed.
-2
+8
 
 Hydrake
 Water
 A sleek, serpentine creature that can summon powerful waves and whip through currents with ease.
-1
+6
 
 Meowguro
 Water
 A playful, aquatic catfish with feline-like agility in the water.
-1
+6
 
 Grawl
 Grass
 A wise and stealthy owl, covered in leaves and vines, blending into nature.
-1
+8
 
 Barkbear
 Grass
 A sturdy bear with a bark-like skin, nearly indestructible in nature’s wilds.
-0
+8
 
 Terrashark
 Earth
 An earth-dwelling predator with the fierce speed and agility of a shark.
-0
+8
 
 Roarland
 Earth
 A fierce, rock-covered tiger with the ability to cause earth tremors with every roar.
-0
+8
 
 Airsting
 Air
 A graceful, flying stingray that glides through the air with the elegance of the wind.
-0
+6
 
 Zephyram
 Air
 A fast-moving ram that uses the power of the wind to leap great distances.
-0
+2
 
 Zaprat
 Electric
@@ -71,15 +71,14 @@ A massive elephant with skin as tough as steel, capable of trampling through any
 Rustcoon
 Metal
 A clever raccoon with metallic fur that can withstand rust and corrosion, scavenging through abandoned factories.
-0
+2
 
 DerVoltage
 Electric
 She eats all her opponents and converts their energy to electric bolts that kills all enemies.
-61
+63
 
 Geodude
 Earth
 Disabled rock person.
 3
-

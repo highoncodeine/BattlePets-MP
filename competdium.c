@@ -93,6 +93,14 @@ void loadBattlePets(const char *filename, bpet battlePets[]){
 
 }
 
+void displayCreateBattlePetHeader(){
+	
+	printf("=========================\n");
+    printf("  CREATE YOUR BATTLEPET\n");
+    printf("=========================\n");
+    printf("\n");
+}
+
 void addBattlePet(bpet battlePets[], const char *fileName){
 	
 	FILE *file = fopen(fileName, "a");
@@ -103,19 +111,24 @@ void addBattlePet(bpet battlePets[], const char *fileName){
 	
 	do{
 		clrscr();
-		
+    	displayCreateBattlePetHeader();
+    	
 		printf("Input the name of your Battlepet: ");
 		scanf("%49s", name);
 		getchar();
 		
 		clrscr();
+		
+		displayCreateBattlePetHeader();
 		printf("Name: %s\n\n", name);
 		
 		printf("Input the element of your Battlepet:\n[0]Fire\n[1]Water\n[2]Grass\n[3]Earth\n[4]Air\n[5]Electric\n[6]Ice\n[7]Metal\n\n");
-		scanf("%d", &element);
+		scanf("Select your Input: %d", &element);
+		getchar();
 		getchar();
 		
 		clrscr();
+		displayCreateBattlePetHeader();
 		printf("Name: %s\n", name);
 		printf("Element: %s\n\n", checkElement(element));
 		
@@ -124,9 +137,10 @@ void addBattlePet(bpet battlePets[], const char *fileName){
 		desc[strcspn(desc, "\n")] = 0;
 		
 		clrscr();
+		displayCreateBattlePetHeader();
 		printf("Name: %s\n", name);
-		printf("Element: %s\n\n", checkElement(element));
-		printf("%s\n\n", desc);
+		printf("Element: %s\n", checkElement(element));
+		printf("Description: %s\n\n", desc);
 		
 		printf("Is the battlepets info correct?\n[1] Yes\n[0] No\n>> ");
 		scanf("%d", &confirm);
@@ -137,13 +151,14 @@ void addBattlePet(bpet battlePets[], const char *fileName){
 	fprintf(file, "%s\n%s\n%s\n0\n\n", name, checkElement(element), desc);
 	
 	clrscr();
+	displayCreateBattlePetHeader();
 	printf("Name: %s\n", name);
-	printf("Element: %s\n\n", checkElement(element));
-	printf("%s\n", desc);
+	printf("Element: %s\n", checkElement(element));
+	printf("Description: %s\n", desc);
 	
     loadBattlePets(fileName, battlePets);
     
-	printf("Battlepet saved succesfully.\n");
+	printf("\n[Battlepet saved succesfully]\n\n");
 	printf("Press Enter to continue...");
     getchar(); 
 	getchar(); 
@@ -182,7 +197,7 @@ void editBattlePetName(const char *newName, const char *battlePetName, const cha
             perror("Error updating file");
             exit(EXIT_FAILURE);
         }
-        printf("\nName updated successfully.\n");
+        printf("\n\n[Name updated successfully]\n\n");
         
     } else {
         printf("Name '%s' not found in the file.\n", battlePetName);
@@ -230,7 +245,7 @@ void editBattlePetElement(int newElementCode, const char *battlePetName, const c
             perror("Error updating file");
             exit(EXIT_FAILURE);
         }
-        printf("\nElement updated successfully.\n");
+        printf("\n\n[Element updated successfully]\n\n");
         
     } else {
         printf("Name '%s' not found in the file.\n", battlePetName);
@@ -289,7 +304,7 @@ void editBattlePetDesc(const char *newDesc, const char *battlePetName, const cha
             exit(EXIT_FAILURE);
         }
         
-        printf("Description updated successfully.\n");
+        printf("\n[Description updated successfully]\n\n");
         
     } else {
     	
@@ -298,7 +313,7 @@ void editBattlePetDesc(const char *newDesc, const char *battlePetName, const cha
     }
 }
 
-void incrementBattlePetMatches(const char *battlePetName, const char *fileName){
+void incrementBattlePetMatches(char *battlePetName, const char *fileName){
 	
 	FILE *file = fopen(fileName, "r");
 	FILE *tempFile = fopen(TEMP_FILE, "w");
@@ -436,7 +451,7 @@ void editBattlePets(bpet battlePets[], int maxPets, const char *fileName){
 					case 2:
 						
 						do{
-							printf("[0] Fire  [1] Water  [2] Grass  [3] Earth  [4] Air  [5] Electric  [6] Ice  [7] Metal\n");
+							printf("[0] Fire  [1] Water  [2] Grass  [3] Earth  [4] Air  [5] Electric  [6] Ice  [7] Metal\n\n");
 							printf("Input New Element: ");
 							scanf("%d", &newElement);
 							getchar();
@@ -487,7 +502,105 @@ void editBattlePets(bpet battlePets[], int maxPets, const char *fileName){
 	} while(mainLoop);
 }
 
+char* getPassword(const char* playerName){
+	
+    static char password[256]; // Static to ensure memory stays valid after return
+    char line[256];
+    
+    FILE* file = fopen("passwords.txt", "r");
+    int foundPlayer = 0;
 
+    if (file == NULL) {
+        strcpy(password, "Error: Unable to open file.");
+    } else {
+        while (fgets(line, sizeof(line), file) != NULL) {
+            // Remove newline character from the line
+            line[strcspn(line, "\n")] = '\0';
+
+            if (foundPlayer) {
+                strcpy(password, line);
+                foundPlayer = 0;
+            } else if (strcmp(line, playerName) == 0) {
+                foundPlayer = 1;
+            }
+        }
+
+        if (!foundPlayer && password[0] == '\0') {
+            strcpy(password, "none");
+        }
+
+        fclose(file);
+    }
+
+    return password;
+}
+
+void addNewPassword(const char *playerName, const char *newPassword){
+	
+	FILE* file = fopen("passwords.txt", "a"); // Open the file in append mode
+
+    if (file == NULL) {
+        perror("Error opening file");
+        return;
+    }
+
+    fprintf(file, "\n%s\n%s\n", playerName, newPassword); // Append player name and password
+    fclose(file);
+    
+    printf("[Password has been added successfully]");
+}
+
+
+void inputPassword(const char* playerName, int *playerAccess){
+	
+	char* password = getPassword(playerName);
+	char inputPass[50];
+	
+	if(strcmp("none", password) == 0){
+		
+		char newPassword[50];
+		clrscr();
+		
+		printf("=========================\n");
+	    printf("      SAVE A ROSTER       \n");
+	    printf("=========================\n\n");
+		
+		printf("[Player %s has not set their password]\n\n", playerName);
+		printf("Input New Password (Must be alphanumeric characters only): ");
+		scanf("%30s", newPassword);
+		addNewPassword(playerName, newPassword);
+		*playerAccess = 1;
+		
+	} else {
+		
+		int count = 0;
+		
+		do{
+			clrscr();
+			printf("=========================\n");
+		    printf("      SAVE A ROSTER       \n");
+		    printf("=========================\n\n");
+			
+			printf("Player: %s\n\n", playerName);
+			printf("Input Password: ");
+			scanf("%s", &inputPass);
+			
+			if(strcmp(inputPass, password) == 0){
+				
+				*playerAccess = 1;
+			} else {
+				
+				count++;
+				printf("\n\nIncorrect Password %d tries remaining\n", 4 - count);
+				printf("Press Enter to Continue...");
+				getchar();
+				getchar();
+			}
+			
+		} while(count < 4 && *playerAccess != 1);
+		
+	}
+}
 
 void saveRoster(Player players[], int playerCount, bpet battlePets[], int maxPets, bpet roster[]) {
     int selectedPlayerIndex = -1;
@@ -495,6 +608,10 @@ void saveRoster(Player players[], int playerCount, bpet battlePets[], int maxPet
     FILE *file;
 
     clrscr();
+    
+    printf("=========================\n");
+    printf("      SAVE A ROSTER       \n");
+    printf("=========================\n\n");
     printf("Select a player to save a roster for:\n");
 
     
@@ -511,31 +628,40 @@ void saveRoster(Player players[], int playerCount, bpet battlePets[], int maxPet
         printf("Invalid selection. Press Enter to continue...");
         getchar();
     } else {
+    	
+    	clrscr();
+    	int playerAccess = 0;
+
         selectedPlayerIndex--;
-
+        
+		inputPassword(players[selectedPlayerIndex].username, &playerAccess);
+		
+		if(playerAccess == 1){
        
-        snprintf(filePath, sizeof(filePath), "saved_roster/%s.txt", players[selectedPlayerIndex].username);
-
-        
-        createRoster(battlePets, maxPets, roster);
-
-        
-        file = fopen(filePath, "w");
-        if (!file) {
-            printf("Error: Could not save roster.\n");
-        } else {
-            for (int i = 0; i < 9; i++) {
-                fprintf(file, "%s\n", roster[i].name);
-            }
-            fclose(file);
-
-            
-            printf("Roster saved successfully for %s to %s.\n", players[selectedPlayerIndex].username, filePath);
-            printf("Press Enter to continue...");
-            getchar(); 
-            getchar(); 
-        }
-    }
+	        snprintf(filePath, sizeof(filePath), "saved_roster/%s.txt", players[selectedPlayerIndex].username);
+	
+	        
+	        createRoster(battlePets, maxPets, roster);
+	
+	        
+	        file = fopen(filePath, "w");
+	        if (!file) {
+	            printf("Error: Could not save roster.\n");
+	        } else {
+	            for (int i = 0; i < 9; i++) {
+	                fprintf(file, "%s\n", roster[i].name);
+	            }
+	            fclose(file);
+	
+	            
+	            printf("\n\n[Roster saved successfully for %s to %s]\n\n", players[selectedPlayerIndex].username, filePath);
+	            printf("Press Enter to continue...");
+	            getchar(); 
+	            getchar(); 
+	        }
+	    }
+    
+	}
 
     clrscr(); 
 }
@@ -546,6 +672,10 @@ void importBattlePets(bpet battlePets[], int maxPets, char *fileName){
 	
     FILE *file;
     int fileExists = 0;
+    
+    printf("=========================\n");
+    printf("    IMPORT BATTLEPETS       \n");
+    printf("=========================\n\n");
     
     printf("Input the name of the txt file you want to import\n");
     printf("[WARNING] You must include the .txt extension\n\n");

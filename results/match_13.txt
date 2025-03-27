@@ -1,0 +1,21 @@
+Player1: TEST1
+Player2: TEST2
+
+P1 Roster vs. P2 Roster
+Solarrafe vs. Solarrafe
+Firepupp vs. Firepupp
+Hydrake vs. Hydrake
+Meowguro vs. Meowguro
+Grawl vs. Grawl
+Barkbear vs. Barkbear
+Terrashark vs. Terrashark
+Roarland vs. Roarland
+Airsting vs. Airsting
+
+Match Results
+D D D 
+D D D 
+D D D 
+
+Winner: None
+Type of Win: Draw

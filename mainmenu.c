@@ -47,6 +47,7 @@ void displayStartMenu()
 
 void displayBattleMenu()
 {
+	clrscr();
     printf("=========================\n");
     printf("       BATTLE MENU       \n");
     printf("=========================\n");
@@ -105,10 +106,10 @@ void battleMenu(int *back, int playerCount, int maxPets, Player players[], const
         printf("Both players have selected their players and rosters. Ready to battle!\n");
 
         // Simulate the battle
-        Fight(&player1, &player2, roster1, roster2, results);
+        simulateFight(&player1, &player2, roster1, roster2, results);
 
         // Show match results and save them
-        showMatchResults(&player1, &player2, roster1, roster2, results);
+        showMatchResults(&player1, &player2, roster1, roster2, results, fileName);
         break;
     case 3:
         clrscr();
@@ -142,7 +143,9 @@ void displayBattlePets(bpet battlePets[], int maxPets, const char *fileName)
 	loadBattlePets(fileName, battlePets);
 	countBattlePets(fileName, &maxPets);
 	
-	printf("BATTLEPET LIST: \n\n");
+	printf("=========================\n");
+    printf("     BATTLEPET LIST     \n");
+    printf("=========================\n\n");
     for (int i = 0; i < maxPets; i++) {
     	if(i < 10){
     		
@@ -173,9 +176,9 @@ void viewBattlePetsMenu(bpet battlePets[], int *nInput, int maxPets, const char 
     
     displayBattlePets(battlePets, maxPets, fileName);
     printf("\nTo view the details of a Battlepet, enter its index, Otherwise ");
-	printf("Press 0 to go Back: \n\n");
+	printf("Input 0 to go Back: \n\n");
     scanf("%d", nInput);
-
+    
 	if(*nInput > 0 && *nInput < maxPets){
 		
 		clrscr();
